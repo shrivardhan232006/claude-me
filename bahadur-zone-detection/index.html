@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Bahadur Zone Detection Manual</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A Simplified Technical English study manual for the Automatic Zone Detection task in Bahadur NVR.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a Claude-style shell. A cream sidebar holds the manual contents and the learning progress;
+   one reading column carries short STE text, numbered procedures, figures and checklists. */
+:root{
+  /* Color: cream paper, warm ink, one clay-orange accent. Heat colors are data hues, used only in figures. */
+  --bg:#FAF9F5; --side:#F1EFE7; --side-hi:#E6E2D6; --card:#FFFFFF; --line:#E7E3D9; --line-2:#D8D3C6;
+  --ink:#1F1E1B; --ink-2:#5E5A51; --ink-3:#8B867B;
+  --accent:#B4532F; --accent-fill:#D97757; --accent-soft:#F7E7DE;
+  --tag-bg:#B4532F; --tag-fg:#FFFFFF;
+  --caution:#8A5A00; --caution-soft:#FBF2DF; --caution-line:#EBCF93; --caution-on:#FFFFFF;
+  --ok:#3F6B35;
+  --code-bg:#F4F2EC;
+  --shadow:rgba(60,45,20,.16);
+  --heat:#E2571B; --heat2:#2F64B5;
+  --veil:#FAF9F5;
+  --sc-sky:#E9E5D8; --sc-nb:#D6CDBA; --sc-win:#BFB5A0; --sc-nbl:#CFD7BD; --sc-road:#A7A398; --sc-dash:#F2EEE3;
+  --sc-curb:#C3BDAE; --sc-walk:#E1DCD0; --sc-lawn:#D2DABD; --sc-drive:#C5C0B3; --sc-path:#DAD3C2; --sc-porch:#C9A882;
+  --sc-board:#B08D66; --sc-bush:#AEBE93; --sc-car:#6D7E95; --sc-car2:#9A6E5C; --sc-glass:#CBD5E1; --sc-tire:#3A3833;
+  --sc-person:#34322D; --sc-pkg:#A87A4C;
+  /* Type: a bookish serif for display, a quiet grotesk for running text, a mono for data and code */
+  --f-display:"Newsreader","Iowan Old Style",Georgia,"Times New Roman",serif;
+  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#262624; --side:#1E1D1C; --side-hi:#34332F; --card:#2F2F2C; --line:#3B3A36; --line-2:#4A4843;
+    --ink:#F2F0E9; --ink-2:#BDB8AD; --ink-3:#8E897E;
+    --accent:#EE9A77; --accent-fill:#D97757; --accent-soft:#44302A;
+    --tag-bg:#E8906C; --tag-fg:#1F1E1B;
+    --caution:#E9B85E; --caution-soft:#3A3021; --caution-line:#6B5527; --caution-on:#1F1E1B;
+    --ok:#9CC48E; --code-bg:#1F1E1C; --shadow:rgba(0,0,0,.5);
+    --heat:#FF7A3A; --heat2:#76A3EE; --veil:#262624;
+    --sc-sky:#33322E; --sc-nb:#47443E; --sc-win:#5C584F; --sc-nbl:#394034; --sc-road:#545249; --sc-dash:#8B887E;
+    --sc-curb:#68655D; --sc-walk:#5E5B54; --sc-lawn:#3A4333; --sc-drive:#59564F; --sc-path:#66625A; --sc-porch:#6C5843;
+    --sc-board:#584735; --sc-bush:#4C5B40; --sc-car:#7F8FA6; --sc-car2:#A47D6C; --sc-glass:#A8B6C9; --sc-tire:#1C1B1A;
+    --sc-person:#EDE9DF; --sc-pkg:#B88B5C;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#262624; --side:#1E1D1C; --side-hi:#34332F; --card:#2F2F2C; --line:#3B3A36; --line-2:#4A4843;
+  --ink:#F2F0E9; --ink-2:#BDB8AD; --ink-3:#8E897E;
+  --accent:#EE9A77; --accent-fill:#D97757; --accent-soft:#44302A;
+  --tag-bg:#E8906C; --tag-fg:#1F1E1B;
+  --caution:#E9B85E; --caution-soft:#3A3021; --caution-line:#6B5527; --caution-on:#1F1E1B;
+  --ok:#9CC48E; --code-bg:#1F1E1C; --shadow:rgba(0,0,0,.5);
+  --heat:#FF7A3A; --heat2:#76A3EE; --veil:#262624;
+  --sc-sky:#33322E; --sc-nb:#47443E; --sc-win:#5C584F; --sc-nbl:#394034; --sc-road:#545249; --sc-dash:#8B887E;
+  --sc-curb:#68655D; --sc-walk:#5E5B54; --sc-lawn:#3A4333; --sc-drive:#59564F; --sc-path:#66625A; --sc-porch:#6C5843;
+  --sc-board:#584735; --sc-bush:#4C5B40; --sc-car:#7F8FA6; --sc-car2:#A47D6C; --sc-glass:#A8B6C9; --sc-tire:#1C1B1A;
+  --sc-person:#EDE9DF; --sc-pkg:#B88B5C;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.62}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+p,ul,ol,dl,dd,figure,pre,h1,h2,h3,h4{margin:0}
+b,strong{font-weight:650}
+
+/* Shell */
+.shell{display:grid;grid-template-columns:284px minmax(0,1fr);align-items:start}
+.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow-y:auto;background:var(--side);border-right:1px solid var(--line);
+  padding-block:26px 24px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:18px;display:flex;flex-direction:column;gap:22px}
+.brand{display:flex;gap:12px;align-items:center}
+.brand svg{width:34px;height:34px;flex:none}
+.brand-t{font-family:var(--f-display);font-size:20px;line-height:1.1;font-weight:500}
+.brand-s{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);letter-spacing:.04em}
+.mk-poly{fill:var(--accent-soft);stroke:var(--accent-fill);stroke-width:2;stroke-linejoin:round}
+.mk-v{fill:var(--card);stroke:var(--accent-fill);stroke-width:1.6}
+.toc{list-style:none;padding:0;display:flex;flex-direction:column;gap:1px}
+.toc a{display:grid;grid-template-columns:26px minmax(0,1fr);gap:6px;align-items:baseline;padding:6px 10px;border-radius:8px;color:var(--ink-2);text-decoration:none;font-size:14.5px;line-height:1.35}
+.toc a span{font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.toc a:hover{background:var(--side-hi);color:var(--ink)}
+.toc a[aria-current="true"]{background:var(--side-hi);color:var(--ink);font-weight:600}
+.toc a[aria-current="true"] span{color:var(--accent)}
+.progress{border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;background:var(--card);display:flex;flex-direction:column;gap:8px}
+.progress .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13.5px}
+.progress .num{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.meter{height:6px;border-radius:999px;background:var(--side-hi);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--accent-fill);border-radius:999px;transition:width .25s ease}
+@media (prefers-reduced-motion: reduce){.meter i{transition:none}}
+.side-foot{margin-top:auto;font-size:12.5px;color:var(--ink-3);line-height:1.5}
+
+.main{padding-block:52px 110px;padding-left:max(clamp(16px,4vw,56px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,4vw,56px),env(safe-area-inset-right,0px));min-width:0}
+.col{max-width:800px;margin-inline:auto;display:flex;flex-direction:column}
+
+/* Type */
+h1,h2{font-family:var(--f-display);font-weight:500;letter-spacing:-.012em;text-wrap:balance}
+h1{font-size:clamp(36px,5.2vw,54px);line-height:1.04}
+h2{font-size:clamp(27px,3.4vw,34px);line-height:1.12}
+h3{font-size:18px;font-weight:650;letter-spacing:-.004em;line-height:1.3;text-wrap:balance}
+h4{font-size:15px;font-weight:650;line-height:1.3}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.lede{font-size:19px;line-height:1.55;color:var(--ink-2);max-width:62ch}
+.muted{color:var(--ink-2)}
+.prose{display:flex;flex-direction:column;gap:14px}
+.prose > p,.prose > ul,.prose > ol{max-width:68ch}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--code-bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px;overflow-wrap:anywhere}
+pre{background:var(--code-bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;overflow-x:auto;font-family:var(--f-mono);font-size:12.8px;line-height:1.62;color:var(--ink);tab-size:2}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+pre .c{color:var(--ink-3)}
+pre .k{color:var(--accent)}
+
+/* Sections */
+section{padding-top:72px;scroll-margin-top:16px;display:flex;flex-direction:column;gap:22px}
+.sec-head{display:flex;flex-direction:column;gap:8px}
+.sec-num{font-family:var(--f-mono);font-size:12px;color:var(--accent);letter-spacing:.06em}
+
+/* Hero */
+.hero{display:flex;flex-direction:column;gap:22px}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--f-mono);font-size:11.5px;border:1px solid var(--line-2);border-radius:999px;padding:3px 10px;color:var(--ink-2);background:var(--card);white-space:nowrap}
+.chip b{color:var(--ink);font-weight:600}
+
+/* Claude-like composer */
+.composer{background:var(--card);border:1px solid var(--line-2);border-radius:20px;padding:16px 14px 12px 18px;box-shadow:0 1px 0 rgba(0,0,0,.02),0 10px 30px -18px var(--shadow);display:flex;flex-direction:column;gap:14px}
+.composer .msg{font-size:17px;line-height:1.45}
+.composer .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.send{width:34px;height:34px;border-radius:11px;background:var(--accent-fill);display:grid;place-items:center;flex:none}
+.send svg{width:16px;height:16px}
+.send path{fill:none;stroke:#FFFFFF;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.reply{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;font-size:15.5px;color:var(--ink-2);padding-inline:6px}
+.reply svg{width:22px;height:22px;margin-top:1px}
+.reply b{color:var(--ink)}
+
+/* Callouts: STE NOTE and CAUTION */
+.callout{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;border:1px solid var(--line-2);background:var(--card);border-radius:12px;padding:14px 16px;font-size:15.5px}
+.callout .lbl{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.1em;padding:3px 8px;border-radius:6px;background:var(--side-hi);color:var(--ink-2);margin-top:2px}
+.callout.caution{background:var(--caution-soft);border-color:var(--caution-line)}
+.callout.caution .lbl{background:var(--caution);color:var(--caution-on)}
+.callout > div{display:flex;flex-direction:column;gap:6px;min-width:0}
+
+/* Lists */
+ul.dash{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
+ul.dash > li{display:grid;grid-template-columns:14px minmax(0,1fr);gap:10px}
+ul.dash > li::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--accent-fill);margin-top:.62em}
+ol.steps{list-style:none;counter-reset:s;padding:0;display:flex;flex-direction:column;gap:10px}
+ol.steps > li{counter-increment:s;display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;align-items:start}
+ol.steps > li::before{content:counter(s);font-family:var(--f-mono);font-size:12px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--ink-2);background:var(--card);margin-top:-1px}
+
+/* Spec grid */
+.spec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.spec > div{background:var(--card);padding:13px 16px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.spec dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.spec dd{font-size:15.5px;line-height:1.45}
+
+/* Figures */
+figure{display:flex;flex-direction:column;gap:12px}
+.fig-frame{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.fig-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fig-scroll svg{display:block;width:100%;height:auto;min-width:660px}
+.fig-scroll.sm svg{min-width:520px}
+figcaption{font-size:14px;line-height:1.5;color:var(--ink-2);max-width:72ch}
+figcaption b{color:var(--ink)}
+.panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.panels.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.panel{display:flex;flex-direction:column;gap:8px;min-width:0}
+.shot{border-radius:10px;overflow:hidden;border:1px solid var(--line-2);line-height:0;background:var(--sc-sky)}
+.shot svg{display:block;width:100%;height:auto}
+.panel p{font-size:14px;line-height:1.5;color:var(--ink-2)}
+.panel .pl{display:flex;gap:8px;align-items:baseline}
+.panel .pl span{font-family:var(--f-mono);font-size:11.5px;color:var(--accent)}
+
+/* SVG: scene */
+svg text{font-family:var(--f-body)}
+.s-sky{fill:var(--sc-sky)} .s-nb{fill:var(--sc-nb)} .s-win{fill:var(--sc-win)} .s-nbl{fill:var(--sc-nbl)}
+.s-road{fill:var(--sc-road)} .s-dash{fill:none;stroke:var(--sc-dash);stroke-width:2.5;stroke-dasharray:16 14}
+.s-curb{fill:var(--sc-curb)} .s-walk{fill:var(--sc-walk)} .s-lawn{fill:var(--sc-lawn)} .s-drive{fill:var(--sc-drive)}
+.s-path{fill:var(--sc-path)} .s-porch{fill:var(--sc-porch)} .s-board{fill:none;stroke:var(--sc-board);stroke-width:1.5}
+.s-bush{fill:var(--sc-bush)} .s-car{fill:var(--sc-car)} .s-car2{fill:var(--sc-car2)} .s-glass{fill:var(--sc-glass)} .s-tire{fill:var(--sc-tire)}
+.s-person{fill:var(--sc-person)} .s-pkg{fill:var(--sc-pkg);stroke:var(--sc-tire);stroke-width:1}
+.veil{fill:var(--veil);fill-opacity:.42}
+.veil.lt{fill-opacity:.22}
+.hp0{stop-color:var(--heat);stop-opacity:.92} .hp1{stop-color:var(--heat);stop-opacity:.42} .hp2{stop-color:var(--heat);stop-opacity:0}
+.hc0{stop-color:var(--heat2);stop-opacity:.92} .hc1{stop-color:var(--heat2);stop-opacity:.42} .hc2{stop-color:var(--heat2);stop-opacity:0}
+.hx-bg{fill:var(--veil);fill-opacity:.3} .hx-ln{stroke:var(--ink-2);stroke-width:2.4;stroke-opacity:.7}
+.ign-edge{fill:none;stroke:var(--ink-2);stroke-width:2;stroke-dasharray:7 5}
+.z{fill:var(--accent-fill);fill-opacity:.3;stroke:var(--accent);stroke-width:3;stroke-linejoin:round}
+.z.old{fill-opacity:.18;stroke-dasharray:9 6}
+.zv{fill:var(--card);stroke:var(--accent);stroke-width:2.2}
+.rg{fill:var(--accent-fill);fill-opacity:.08;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round}
+.bb{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:5 4}
+.bc{fill:var(--accent-fill);stroke:var(--card);stroke-width:2}
+.lead{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:4 4}
+.shadow{fill:var(--ink);fill-opacity:.12}
+.tag rect{fill:var(--tag-bg)} .tag text{fill:var(--tag-fg);font-weight:600}
+.tag.gray rect{fill:var(--ink-2)} .tag.gray text{fill:var(--bg)}
+.tag.warn rect{fill:var(--caution)} .tag.warn text{fill:var(--caution-on)}
+.badge circle{fill:var(--tag-bg);stroke:var(--card);stroke-width:2.5} .badge text{fill:var(--tag-fg);font-weight:700;font-size:18px}
+.alert circle{fill:var(--tag-bg);stroke:var(--card);stroke-width:2} .alert text{fill:var(--tag-fg);font-weight:800;font-size:17px}
+/* SVG: diagrams */
+.bx{fill:var(--card);stroke:var(--line-2);stroke-width:1.4}
+.bx.hi{fill:var(--accent-soft);stroke:var(--accent-fill);stroke-width:2}
+.bt{fill:var(--ink);font-size:15px;font-weight:650}
+.bs{fill:var(--ink-2);font-size:12.5px}
+svg .mono{font-family:var(--f-mono)}
+.ar{fill:none;stroke:var(--ink-3);stroke-width:1.6}
+.ar.dash{stroke-dasharray:5 4}
+.mk{fill:var(--ink-3)}
+svg .al{fill:var(--ink-2);font-size:12px;font-family:var(--f-mono)}
+.lt{fill:var(--ink);font-size:15px;font-weight:700}
+.lt2{fill:var(--accent);font-size:15px;font-weight:700}
+.warnt{fill:var(--caution);font-size:12.5px;font-weight:600}
+.okt{fill:var(--ok);font-size:12.5px;font-weight:600}
+.wt rect{fill:var(--caution-soft);stroke:var(--caution-line)} .wt text{fill:var(--caution);font-size:12.5px;font-weight:600}
+.gl{stroke:var(--line-2);stroke-width:1}
+.gl.end{stroke:var(--accent-fill);stroke-width:1.6;stroke-dasharray:5 4}
+.gbar{fill:var(--side);stroke:var(--line-2);stroke-width:1.2}
+.gbar.rec{fill:var(--accent-soft);stroke:var(--accent-fill);stroke-dasharray:5 4}
+.gtx{fill:var(--ink);font-size:14.5px}
+.gtx.b{font-weight:700}
+.gin{fill:var(--ink-2);font-size:11px}
+.gsec{fill:var(--accent);font-size:11px;letter-spacing:.08em}
+.ms{fill:var(--accent-fill);stroke:var(--card);stroke-width:1.5}
+.pf{fill:var(--card);stroke:var(--line-2);stroke-width:1.2}
+.cell{fill:var(--heat)} .grd{stroke:var(--line);stroke-width:1} .dot{fill:var(--heat)}
+.thr{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-dasharray:4 3}
+.ct{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
+.gate{stroke:var(--accent-fill);stroke-width:1.6;stroke-dasharray:4 4}
+.gatet{fill:var(--accent);font-size:12px;font-weight:600}
+
+/* Compare (today vs target) */
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.cmp{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--card);display:flex;flex-direction:column;gap:12px;min-width:0}
+.cmp.target{border-color:var(--accent-fill);background:linear-gradient(var(--accent-soft),var(--accent-soft)) top/100% 4px no-repeat,var(--card)}
+.cmp .res{font-size:14px;color:var(--ink-2);border-top:1px dashed var(--line-2);padding-top:10px}
+
+/* Workstream cards */
+.ws{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:22px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.ws-head{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:baseline;justify-content:space-between}
+.ws-head h3{font-family:var(--f-display);font-size:24px;font-weight:500;letter-spacing:-.01em}
+.ws-head .tags{display:flex;gap:6px;flex-wrap:wrap}
+.ws-id{font-family:var(--f-mono);font-size:12px;color:var(--accent);margin-right:8px;letter-spacing:.04em}
+.goal{font-size:16.5px;max-width:66ch}
+.done{font-size:14.5px;color:var(--ink-2);display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.done b{font-family:var(--f-mono);font-size:11px;letter-spacing:.09em;color:var(--ok);text-transform:uppercase}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips .chip{font-family:var(--f-body);font-size:13px}
+
+/* Tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.45}
+.tbl table{min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:500;background:var(--side)}
+tr:last-child td{border-bottom:0}
+td.k{font-family:var(--f-mono);font-size:12.5px;white-space:nowrap;color:var(--ink)}
+td.n{font-family:var(--f-mono);font-size:12.5px;color:var(--accent);white-space:nowrap}
+
+/* Composer pair (intent comparison) */
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.pair > div{display:flex;flex-direction:column;gap:10px;min-width:0}
+.pair .composer{padding:12px 12px 10px 14px;border-radius:16px;gap:10px}
+.pair .composer .msg{font-size:15px}
+.pair pre{font-size:12px;padding:10px 12px}
+
+/* Learning checklist */
+.learn-group{display:flex;flex-direction:column;gap:10px}
+.lg-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.when{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:999px;white-space:nowrap}
+ul.learn{list-style:none;padding:0;border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+ul.learn > li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;padding:13px 16px;border-bottom:1px solid var(--line)}
+ul.learn > li:last-child{border-bottom:0}
+ul.learn input{width:18px;height:18px;margin:3px 0 0;accent-color:var(--accent-fill);cursor:pointer}
+ul.learn label{cursor:pointer;font-weight:650;font-size:15.5px}
+ul.learn .lx{display:flex;flex-direction:column;gap:3px;min-width:0}
+ul.learn .what{font-size:14.5px;color:var(--ink)}
+ul.learn .why{font-size:14px;color:var(--ink-2)}
+ul.learn .why i{font-style:normal;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3);margin-right:4px}
+ul.learn .src{font-size:13.5px}
+ul.learn li:has(input:checked) label{text-decoration:line-through;text-decoration-color:var(--accent-fill);text-decoration-thickness:2px;color:var(--ink-2)}
+
+/* Approach */
+.thesis{font-family:var(--f-display);font-size:clamp(30px,4.4vw,46px);line-height:1.08;letter-spacing:-.015em;font-weight:500;text-wrap:balance;padding-block:6px}
+.thesis em{font-style:italic;color:var(--accent)}
+.principles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.pr{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.pr .why{font-size:14.5px;color:var(--ink-2)}
+.pr .do{font-size:14.5px}
+.pr .do b{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.09em;color:var(--accent);margin-right:6px}
+
+/* Glossary */
+dl.gloss{display:grid;grid-template-columns:minmax(150px,210px) minmax(0,1fr);border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+dl.gloss dt,dl.gloss dd{padding:10px 16px;border-bottom:1px solid var(--line);font-size:14.5px}
+dl.gloss dt{font-weight:650;background:var(--side)}
+dl.gloss dt:last-of-type,dl.gloss dd:last-of-type{border-bottom:0}
+
+footer{margin-top:80px;padding-top:22px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-3);display:flex;flex-direction:column;gap:6px}
+
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding-right:max(16px,env(safe-area-inset-right,0px));padding-left:max(16px,env(safe-area-inset-left,0px));gap:16px}
+  .toc{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .toc a{display:inline-flex;gap:6px;border:1px solid var(--line-2);background:var(--card);padding:4px 10px;font-size:13.5px}
+  .side-foot{display:none}
+  .main{padding-block:36px 90px}
+}
+@media (max-width:720px){
+  .panels,.panels.three,.compare,.pair,.principles,.spec{grid-template-columns:1fr}
+  section{padding-top:56px}
+  .ws{padding:18px 16px}
+  dl.gloss{grid-template-columns:1fr}
+  dl.gloss dt{border-bottom:0;padding-bottom:2px}
+  dl.gloss dd{padding-top:2px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side" aria-label="Manual contents">
+    <div class="brand">
+      <svg viewBox="0 0 34 34" aria-hidden="true"><polygon class="mk-poly" points="5,27 9,8 27,5 30,24"/><circle class="mk-v" cx="5" cy="27" r="2.6"/><circle class="mk-v" cx="9" cy="8" r="2.6"/><circle class="mk-v" cx="27" cy="5" r="2.6"/><circle class="mk-v" cx="30" cy="24" r="2.6"/></svg>
+      <div><div class="brand-t">Zone Detection</div><div class="brand-s">STUDY MANUAL · REV 1</div></div>
+    </div>
+    <nav>
+      <ol class="toc">
+        <li><a href="#summary"><span>01</span>Summary</a></li>
+        <li><a href="#problem"><span>02</span>The problem</a></li>
+        <li><a href="#zone"><span>03</span>How a zone works</a></li>
+        <li><a href="#system"><span>04</span>The system</a></li>
+        <li><a href="#workstreams"><span>05</span>The four workstreams</a></li>
+        <li><a href="#safety"><span>06</span>Safety rules</a></li>
+        <li><a href="#deliverables"><span>07</span>Deliverables and timeline</a></li>
+        <li><a href="#learn"><span>08</span>What to learn</a></li>
+        <li><a href="#approach"><span>09</span>Recommended approach</a></li>
+        <li><a href="#weeks"><span>10</span>Week plan</a></li>
+        <li><a href="#risks"><span>11</span>Risks</a></li>
+        <li><a href="#questions"><span>12</span>Questions for week 1</a></li>
+        <li><a href="#glossary"><span>13</span>Glossary</a></li>
+      </ol>
+    </nav>
+    <div class="progress" aria-live="polite">
+      <div class="row"><span>Learning checklist</span><span class="num" id="learn-count">0 / 28</span></div>
+      <div class="meter"><i id="learn-bar"></i></div>
+    </div>
+    <p class="side-foot">Written in ASD-STE100 Simplified Technical English. Source: task handover, 19 Oct 2026.</p>
+  </aside>
+
+  <main class="main">
+    <div class="col">
+
+      <header class="hero">
+        <div class="eyebrow">Study manual · ASD-STE100 style · 22 Oct 2026</div>
+        <h1>Automatic Zone Detection for Bahadur</h1>
+        <p class="lede">This manual explains the task handover of 19 October 2026. It tells you what the problem is, what you must learn, and how to do the work. The text uses Simplified Technical English: short sentences, active voice, and one instruction in each step.</p>
+        <div class="eyebrow" style="margin-top:6px">The target result</div>
+        <div class="composer" aria-label="Example of the target experience">
+          <div class="msg">Make a zone for the front porch and one for the driveway.</div>
+          <div class="bar">
+            <span class="chip">camera: <b>front_door</b></span>
+            <span class="send" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg></span>
+          </div>
+        </div>
+        <div class="reply">
+          <svg viewBox="0 0 22 22" aria-hidden="true"><polygon class="mk-poly" points="3,18 6,5 18,3 20,16"/></svg>
+          <p><b>2 zones proposed:</b> <code>porch_approach</code> and <code>driveway</code>. The preview is ready. Bahadur saves nothing until you approve each zone.</p>
+        </div>
+        <div class="meta">
+          <span class="chip">Source: <b>Task handover, @Chirag</b></span>
+          <span class="chip">Duration: <b>5 weeks</b></span>
+          <span class="chip">Product: <b>Bahadur NVR</b></span>
+        </div>
+        <div class="callout">
+          <span class="lbl">NOTE</span>
+          <div><p>The PDF header says “RFP: Automatic Zone Detection for Frigate”. Bahadur uses the same configuration keys as the open-source Frigate NVR. Thus, you can use the Frigate documentation to learn Bahadur. Confirm the exact Bahadur version in week 1.</p></div>
+        </div>
+      </header>
+
+      <!-- 1 SUMMARY -->
+      <section id="summary">
+        <div class="sec-head"><span class="sec-num">01</span><h2>Summary</h2></div>
+        <div class="prose">
+          <p>Bahadur is a network video recorder (NVR). It finds people, cars and other objects in camera video. A zone is an area of the camera image that the user marks as important. Today, the user draws each zone by hand. Your task is to make Bahadur propose the zones automatically.</p>
+          <p>The feature has three parts:</p>
+          <ul class="dash">
+            <li><span><b>Tools.</b> Functions that an LLM can call to get current and past frames from a camera.</span></li>
+            <li><span><b>Analysis.</b> A heat map that shows where objects move, and a vision model that names the areas in the frame.</span></li>
+            <li><span><b>Zone drawing.</b> A step that combines the analysis with the user's request and writes valid zones.</span></li>
+          </ul>
+        </div>
+        <dl class="spec">
+          <div><dt>Input</dt><dd>One sentence from the user, for one camera.</dd></div>
+          <div><dt>Output</dt><dd>Named zone polygons that are ready for <code>config.yml</code>.</dd></div>
+          <div><dt>Speed</dt><dd>Less than one minute for each camera.</dd></div>
+          <div><dt>Approval</dt><dd>The user previews each zone. Bahadur saves nothing without approval.</dd></div>
+          <div><dt>Models</dt><dd>A local vision model by default. Cloud APIs are optional.</dd></div>
+          <div><dt>User</dt><dd>A home or small-business operator with no computer-vision knowledge.</dd></div>
+          <div><dt>Fit</dt><dd>Use Bahadur's config and UI. Do not replace them.</dd></div>
+          <div><dt>Plan</dt><dd>5 weeks, 4 workstreams, 9 deliverables.</dd></div>
+        </dl>
+      </section>
+
+      <!-- 2 PROBLEM -->
+      <section id="problem">
+        <div class="sec-head"><span class="sec-num">02</span><h2>The problem</h2></div>
+        <div class="prose">
+          <p>Zones control the behavior that users care about most. They decide which objects make an alert, which filters apply, and which automations start through MQTT and Home Assistant. Users draw zones by hand. This causes three problems.</p>
+        </div>
+        <figure>
+          <div class="panels three">
+            <div class="panel">
+              <div class="shot"><svg viewBox="0 0 640 360" role="img" aria-label="No zones: every car on the street and every person on the sidewalk makes an alert."><defs><radialGradient id="hp-pa"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-pa"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-pa" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><g><rect class="s-sky" x="-80" y="-80" width="800" height="190"/><path class="s-nb" d="M30 104V64l48-30 48 30v40zM240 104V72l40-24 40 24v32zM452 104V60l54-32 54 32v44z"/><path class="s-win" d="M64 74h28v16H64zM268 80h24v14h-24zM492 70h28v16h-28z"/><rect class="s-nbl" x="-80" y="100" width="800" height="10"/><rect class="s-road" x="-80" y="108" width="800" height="46"/><path class="s-dash" d="M-80 131H720"/><rect class="s-curb" x="-80" y="154" width="800" height="5"/><rect class="s-walk" x="-80" y="158" width="800" height="24"/><rect class="s-lawn" x="-80" y="182" width="800" height="260"/><path class="s-drive" d="M55 182H190L278 400H-80V349Z"/><path class="s-path" d="M392 182H428L470 300H410Z"/><path class="s-porch" d="M330 300H600L680 392V440H275Z"/><path class="s-board" d="M323.3 320H617.4M316.7 340H634.8"/><circle class="s-bush" cx="298" cy="290" r="15"/><circle class="s-bush" cx="318" cy="297" r="10"/><circle class="s-bush" cx="622" cy="288" r="14"/><rect class="s-car" x="472" y="114" width="96" height="32" rx="9"/><rect class="s-glass" x="492" y="118" width="54" height="11" rx="3"/><circle class="s-tire" cx="490" cy="146" r="5"/><circle class="s-tire" cx="550" cy="146" r="5"/></g><rect class="s-car2" x="64" y="113" width="92" height="30" rx="9"/><rect class="s-glass" x="84" y="117" width="50" height="10" rx="3"/><ellipse class="shadow" cx="150" cy="177" rx="8.6" ry="2.4"/><g class="s-person"><circle cx="150" cy="147.4" r="4.4"/><rect x="143.9" y="152.5" width="12.2" height="24.5" rx="5.1"/></g><ellipse class="shadow" cx="440" cy="262" rx="17.6" ry="3.8"/><g class="s-person"><circle cx="440" cy="201.1" r="9.1"/><rect x="427.4" y="211.6" width="25.2" height="50.4" rx="10.6"/></g><rect class="bb" x="58" y="108" width="104" height="42"/><rect class="bb" x="466" y="108" width="108" height="44"/><rect class="bb" x="139.9" y="139" width="20.2" height="39"/><rect class="bb" x="423.4" y="188" width="33.2" height="75"/><g class="alert"><circle cx="162" cy="108" r="12"/><text x="162" y="108.5" text-anchor="middle" dominant-baseline="central">!</text></g><g class="alert"><circle cx="574" cy="108" r="12"/><text x="574" y="108.5" text-anchor="middle" dominant-baseline="central">!</text></g><g class="alert"><circle cx="163" cy="138" r="12"/><text x="163" y="138.5" text-anchor="middle" dominant-baseline="central">!</text></g><g class="alert"><circle cx="463" cy="186" r="12"/><text x="463" y="186.5" text-anchor="middle" dominant-baseline="central">!</text></g></svg></div>
+              <div class="pl"><span>A</span><h4>No zones</h4></div>
+              <p>Every car on the street and every person on the sidewalk makes an alert. The user gets too many alerts.</p>
+            </div>
+            <div class="panel">
+              <div class="shot"><svg viewBox="0 0 640 360" role="img" aria-label="Zone too small: the zone covers only the door area. The person on the walkway is outside it."><defs><radialGradient id="hp-pb"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-pb"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-pb" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-pb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><g><rect class="s-sky" x="-80" y="-80" width="800" height="190"/><path class="s-nb" d="M30 104V64l48-30 48 30v40zM240 104V72l40-24 40 24v32zM452 104V60l54-32 54 32v44z"/><path class="s-win" d="M64 74h28v16H64zM268 80h24v14h-24zM492 70h28v16h-28z"/><rect class="s-nbl" x="-80" y="100" width="800" height="10"/><rect class="s-road" x="-80" y="108" width="800" height="46"/><path class="s-dash" d="M-80 131H720"/><rect class="s-curb" x="-80" y="154" width="800" height="5"/><rect class="s-walk" x="-80" y="158" width="800" height="24"/><rect class="s-lawn" x="-80" y="182" width="800" height="260"/><path class="s-drive" d="M55 182H190L278 400H-80V349Z"/><path class="s-path" d="M392 182H428L470 300H410Z"/><path class="s-porch" d="M330 300H600L680 392V440H275Z"/><path class="s-board" d="M323.3 320H617.4M316.7 340H634.8"/><circle class="s-bush" cx="298" cy="290" r="15"/><circle class="s-bush" cx="318" cy="297" r="10"/><circle class="s-bush" cx="622" cy="288" r="14"/><rect class="s-car" x="472" y="114" width="96" height="32" rx="9"/><rect class="s-glass" x="492" y="118" width="54" height="11" rx="3"/><circle class="s-tire" cx="490" cy="146" r="5"/><circle class="s-tire" cx="550" cy="146" r="5"/></g><ellipse class="shadow" cx="440" cy="262" rx="17.6" ry="3.8"/><g class="s-person"><circle cx="440" cy="201.1" r="9.1"/><rect x="427.4" y="211.6" width="25.2" height="50.4" rx="10.6"/></g><polygon class="z" points="424,306 506,306 512,338 418,338"/><circle class="zv" cx="424" cy="306" r="5"/><circle class="zv" cx="506" cy="306" r="5"/><circle class="zv" cx="512" cy="338" r="5"/><circle class="zv" cx="418" cy="338" r="5"/><rect class="bb" x="423.4" y="188" width="33.2" height="75"/><circle class="bc" cx="440" cy="263" r="5.5"/><path class="lead" d="M440 272V300"/></svg></div>
+              <div class="pl"><span>B</span><h4>Zone too small</h4></div>
+              <p>The zone covers only the area at the door. The person on the walkway is outside it. Bahadur misses the event.</p>
+            </div>
+            <div class="panel">
+              <div class="shot"><svg viewBox="0 0 640 360" role="img" aria-label="Zone out of date: the camera moved, but the zone stayed in the old position."><defs><radialGradient id="hp-pc"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-pc"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-pc" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-pc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><g transform="translate(320 180) rotate(-5) scale(1.12) translate(-320 -180) translate(34 -12)"><rect class="s-sky" x="-80" y="-80" width="800" height="190"/><path class="s-nb" d="M30 104V64l48-30 48 30v40zM240 104V72l40-24 40 24v32zM452 104V60l54-32 54 32v44z"/><path class="s-win" d="M64 74h28v16H64zM268 80h24v14h-24zM492 70h28v16h-28z"/><rect class="s-nbl" x="-80" y="100" width="800" height="10"/><rect class="s-road" x="-80" y="108" width="800" height="46"/><path class="s-dash" d="M-80 131H720"/><rect class="s-curb" x="-80" y="154" width="800" height="5"/><rect class="s-walk" x="-80" y="158" width="800" height="24"/><rect class="s-lawn" x="-80" y="182" width="800" height="260"/><path class="s-drive" d="M55 182H190L278 400H-80V349Z"/><path class="s-path" d="M392 182H428L470 300H410Z"/><path class="s-porch" d="M330 300H600L680 392V440H275Z"/><path class="s-board" d="M323.3 320H617.4M316.7 340H634.8"/><circle class="s-bush" cx="298" cy="290" r="15"/><circle class="s-bush" cx="318" cy="297" r="10"/><circle class="s-bush" cx="622" cy="288" r="14"/><rect class="s-car" x="472" y="114" width="96" height="32" rx="9"/><rect class="s-glass" x="492" y="118" width="54" height="11" rx="3"/><circle class="s-tire" cx="490" cy="146" r="5"/><circle class="s-tire" cx="550" cy="146" r="5"/></g><polygon class="z old" points="392,182 428,182 470,300 600,300 640,346 640,360 310,360 330,300 410,300"/><circle class="zv" cx="392" cy="182" r="5"/><circle class="zv" cx="428" cy="182" r="5"/><circle class="zv" cx="470" cy="300" r="5"/><circle class="zv" cx="600" cy="300" r="5"/><circle class="zv" cx="640" cy="346" r="5"/><circle class="zv" cx="640" cy="360" r="5"/><circle class="zv" cx="310" cy="360" r="5"/><circle class="zv" cx="330" cy="300" r="5"/><circle class="zv" cx="410" cy="300" r="5"/></svg></div>
+              <div class="pl"><span>C</span><h4>Zone out of date</h4></div>
+              <p>Someone moved the camera. The zone stays in the old position. A new fence, a parked car or seasonal leaves cause the same problem.</p>
+            </div>
+          </div>
+          <figcaption><b>Figure 1.</b> Three failures of hand-drawn zones on the same front-door camera.</figcaption>
+        </figure>
+        <div class="prose">
+          <p>The work also repeats. An operator with many cameras makes the same decisions on each camera: the driveway is here, the public sidewalk is there, the door is up there.</p>
+        </div>
+        <div class="compare">
+          <div class="cmp">
+            <div class="eyebrow">Today</div>
+            <ol class="steps">
+              <li><span>Open <b>Settings → Masks / Zones</b>.</span></li>
+              <li><span>Click each corner of the polygon.</span></li>
+              <li><span>Guess how large the zone must be.</span></li>
+              <li><span>Do steps 1 to 3 again for each camera.</span></li>
+              <li><span>Draw the zone again when the camera moves.</span></li>
+            </ol>
+            <p class="res">Result: hours of work, and zones that are often wrong.</p>
+          </div>
+          <div class="cmp target">
+            <div class="eyebrow" style="color:var(--accent)">Target</div>
+            <ol class="steps">
+              <li><span>Type one sentence for the camera.</span></li>
+              <li><span>Examine the proposed zones on the frame.</span></li>
+              <li><span>Accept, edit or reject each zone.</span></li>
+            </ol>
+            <p class="res">Result: zones that the user would draw, in less than one minute, without leaving Bahadur.</p>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Bahadur already has the raw material for this feature:</p>
+          <ul class="dash">
+            <li><span>A motion detector.</span></li>
+            <li><span>Object tracking, with bounding boxes and history in its database.</span></li>
+            <li><span>A <code>latest.jpg</code> endpoint for each camera.</span></li>
+            <li><span>Event snapshots.</span></li>
+            <li><span>A config API.</span></li>
+          </ul>
+          <p>Community MCP servers already connect LLM assistants to Bahadur. They prove that the tool-call method works. The missing part is the pipeline that turns frames and history into proposed zones. You will build that pipeline.</p>
+        </div>
+      </section>
+
+      <!-- 3 ZONE -->
+      <section id="zone">
+        <div class="sec-head"><span class="sec-num">03</span><h2>How a zone works</h2></div>
+        <div class="prose">
+          <p>Learn this rule first. Bahadur does not test the full object box against a zone. It tests one point: the <b>bottom-center</b> of the box.</p>
+        </div>
+        <figure>
+          <div class="fig-frame fig-scroll sm"><svg viewBox="0 0 640 300" role="img" aria-label="Person A has the bottom-center point inside the zone and counts. Person B&#x27;s box overlaps the zone but the point is outside, so B does not count."><defs><radialGradient id="hp-bcr"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-bcr"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-bcr" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-bcr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><polygon class="z" points="110,128 500,128 590,252 30,252"/><text class="lt2" x="560" y="150" text-anchor="end">zone</text><ellipse class="shadow" cx="220" cy="216" rx="35.3" ry="6.6"/><g class="s-person"><circle cx="220" cy="94.2" r="18.2"/><rect x="194.8" y="115.2" width="50.4" height="100.8" rx="21.2"/></g><ellipse class="shadow" cx="470" cy="288" rx="50.4" ry="9"/><g class="s-person"><circle cx="470" cy="114" r="26"/><rect x="434" y="144" width="72" height="144" rx="30.2"/></g><rect class="bb" x="188.8" y="70" width="62.4" height="147"/><circle class="bc" cx="220" cy="217" r="5.5"/><rect class="bb" x="428" y="82" width="84" height="207"/><circle class="bc" cx="470" cy="289" r="5.5"/><path class="ar" d="M214 222L176 274"/><text class="al" x="170" y="282" text-anchor="end" dominant-baseline="central">bottom-center point</text><text class="bt" x="220" y="44" text-anchor="middle">A: point inside</text><text class="okt" x="220" y="62" text-anchor="middle">counts</text><text class="bt" x="470" y="56" text-anchor="middle">B: box overlaps, point outside</text><text class="warnt" x="470" y="74" text-anchor="middle">does not count</text></svg></div>
+          <figcaption><b>Figure 2.</b> Person A stands in the zone, so person A counts. The box of person B covers the zone, but its bottom-center point is outside. Person B does not count.</figcaption>
+        </figure>
+        <div class="prose">
+          <p>This rule has two results for your work:</p>
+          <ul class="dash">
+            <li><span>A zone must cover the ground where feet and wheels touch. It must not cover only the body of the object.</span></li>
+            <li><span>The heat map must use the same bottom-center points. Then the heat map and the zone test agree.</span></li>
+          </ul>
+          <p>Zones live in <code>config.yml</code>, under each camera. This example is the result of the prompt at the top of this manual:</p>
+        </div>
+<pre><code><span class="k">cameras:</span>
+  <span class="k">front_door:</span>
+    <span class="k">zones:</span>
+      <span class="k">porch_approach:</span>
+        <span class="k">coordinates:</span> 0.613,0.506,0.669,0.506,0.734,0.833,0.938,0.833,1.000,0.961,1.000,1.000,0.484,1.000,0.516,0.833,0.641,0.833
+        <span class="k">objects:</span>
+          - person
+        <span class="k">inertia:</span> 3
+        <span class="k">loitering_time:</span> 0
+      <span class="k">driveway:</span>
+        <span class="k">coordinates:</span> 0.086,0.506,0.297,0.506,0.409,1.000,0.000,1.000,0.000,0.728
+        <span class="k">objects:</span>
+          - person
+          - car
+    <span class="k">review:</span>
+      <span class="k">alerts:</span>
+        <span class="k">required_zones:</span>
+          - porch_approach
+      <span class="k">detections:</span>
+        <span class="k">required_zones:</span>
+          - driveway</code></pre>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Key</th><th>What it does</th><th>In the example</th></tr></thead>
+            <tbody>
+              <tr><td class="k">coordinates</td><td>Polygon corners as x,y pairs. Values go from 0 to 1, relative to the frame.</td><td>9 corners</td></tr>
+              <tr><td class="k">objects</td><td>Only these labels can trigger the zone.</td><td>person</td></tr>
+              <tr><td class="k">inertia</td><td>Number of frames that an object must be in the zone before it counts. This stops false entries.</td><td>3</td></tr>
+              <tr><td class="k">loitering_time</td><td>Seconds that an object must stay in the zone before it counts. The value 0 turns it off.</td><td>0</td></tr>
+              <tr><td class="k">filters</td><td>Size and score limits for each label in this zone.</td><td>Not used</td></tr>
+              <tr><td class="k">review.alerts.<wbr>required_zones</td><td>Bahadur makes an alert only when an object enters one of these zones.</td><td>porch_approach</td></tr>
+              <tr><td class="k">review.detections.<wbr>required_zones</td><td>The same rule for detections. Detections are less urgent than alerts.</td><td>driveway</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4 SYSTEM -->
+      <section id="system">
+        <div class="sec-head"><span class="sec-num">04</span><h2>The system</h2></div>
+        <div class="prose">
+          <p>The system has four workstreams. Workstreams 1 to 3 make the inputs. They mostly connect parts that already exist. Workstream 4 joins the inputs. Most of the new work is in workstream 4.</p>
+        </div>
+        <figure>
+          <div class="fig-frame fig-scroll"><svg viewBox="0 0 1116 466" role="img" aria-label="Pipeline: frame tools and object history feed scene understanding and the heat map; with the user prompt they feed intent fusion, which proposes zones that the user previews before config.yml is saved."><defs><radialGradient id="hp-pipe"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-pipe"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-pipe" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-pipe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><rect class="bx" x="20" y="20" width="224" height="66" rx="10"/><text class="bt" x="132.0" y="48" text-anchor="middle">Frame tools (WS1)</text><text class="bs" x="132.0" y="69" text-anchor="middle">latest + sampled frames</text><rect class="bx" x="304" y="20" width="224" height="66" rx="10"/><text class="bt" x="416.0" y="48" text-anchor="middle">Object history (WS1)</text><text class="bs" x="416.0" y="69" text-anchor="middle">tracked positions, labels</text><rect class="bx" x="872" y="20" width="224" height="66" rx="10"/><text class="bt" x="984.0" y="48" text-anchor="middle">User prompt</text><text class="bs" x="984.0" y="69" text-anchor="middle">watch, ignore, which objects</text><rect class="bx" x="20" y="140" width="224" height="66" rx="10"/><text class="bt" x="132.0" y="168" text-anchor="middle">Scene understanding (WS3)</text><text class="bs" x="132.0" y="189" text-anchor="middle">driveway, porch, road, door</text><rect class="bx" x="304" y="140" width="224" height="66" rx="10"/><text class="bt" x="416.0" y="168" text-anchor="middle">Heat map (WS2)</text><text class="bs" x="416.0" y="189" text-anchor="middle">paths, dwell spots, per label</text><rect class="bx hi" x="304" y="260" width="224" height="66" rx="10"/><text class="bt" x="416.0" y="288" text-anchor="middle">Intent fusion (WS4)</text><text class="bs" x="416.0" y="309" text-anchor="middle">LLM merges regions by goal</text><rect class="bx" x="304" y="380" width="224" height="66" rx="10"/><text class="bt" x="416.0" y="408" text-anchor="middle">Proposed zones</text><text class="bs" x="416.0" y="429" text-anchor="middle">polygons, names, filters</text><rect class="bx" x="588" y="380" width="224" height="66" rx="10"/><text class="bt" x="700.0" y="408" text-anchor="middle">Preview and approve</text><text class="bs" x="700.0" y="429" text-anchor="middle">accept, edit, reject</text><rect class="bx" x="872" y="380" width="224" height="66" rx="10"/><text class="bt mono" x="984.0" y="408" text-anchor="middle">config.yml</text><text class="bs" x="984.0" y="429" text-anchor="middle">saved by existing path</text><path class="ar" d="M132.0 86V138" marker-end="url(#mk-pipe)"/><text class="al" x="140.0" y="117" text-anchor="start">frames</text><path class="ar" d="M416.0 86V138" marker-end="url(#mk-pipe)"/><text class="al" x="424.0" y="117" text-anchor="start">positions</text><path class="ar" d="M132.0 206V293H302" marker-end="url(#mk-pipe)"/><text class="al" x="228.0" y="285" text-anchor="middle">labeled regions</text><path class="ar" d="M416.0 206V258" marker-end="url(#mk-pipe)"/><text class="al" x="424.0" y="237" text-anchor="start">activity regions</text><path class="ar" d="M984.0 86V293H530" marker-end="url(#mk-pipe)"/><text class="al" x="760" y="285" text-anchor="middle">goals</text><path class="ar dash" d="M700.0 380V318H530" marker-end="url(#mk-pipe)"/><text class="al" x="708.0" y="354" text-anchor="start">follow-up prompt</text><path class="ar" d="M416.0 326V378" marker-end="url(#mk-pipe)"/><text class="al" x="424.0" y="357" text-anchor="start">zone program</text><path class="ar" d="M528 413H586" marker-end="url(#mk-pipe)"/><text class="al" x="557" y="404" text-anchor="middle">overlay</text><path class="ar" d="M812 413H870" marker-end="url(#mk-pipe)"/><text class="al" x="841" y="404" text-anchor="middle">approve</text></svg></div>
+          <figcaption><b>Figure 3.</b> Frames and object history feed scene understanding and the heat map. The fusion step reads both against the user's prompt. The user previews the zones before Bahadur saves anything. Redrawn from the handover, with a label on each data flow.</figcaption>
+        </figure>
+        <div class="prose"><p>Figure 4 shows one camera through each input layer.</p></div>
+        <figure>
+          <div class="panels">
+            <div class="panel">
+              <div class="shot"><svg viewBox="0 0 640 360" role="img" aria-label="The camera frame: street, sidewalk, driveway, walkway, porch and a parked car."><defs><radialGradient id="hp-lf"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-lf"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-lf" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-lf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><g><rect class="s-sky" x="-80" y="-80" width="800" height="190"/><path class="s-nb" d="M30 104V64l48-30 48 30v40zM240 104V72l40-24 40 24v32zM452 104V60l54-32 54 32v44z"/><path class="s-win" d="M64 74h28v16H64zM268 80h24v14h-24zM492 70h28v16h-28z"/><rect class="s-nbl" x="-80" y="100" width="800" height="10"/><rect class="s-road" x="-80" y="108" width="800" height="46"/><path class="s-dash" d="M-80 131H720"/><rect class="s-curb" x="-80" y="154" width="800" height="5"/><rect class="s-walk" x="-80" y="158" width="800" height="24"/><rect class="s-lawn" x="-80" y="182" width="800" height="260"/><path class="s-drive" d="M55 182H190L278 400H-80V349Z"/><path class="s-path" d="M392 182H428L470 300H410Z"/><path class="s-porch" d="M330 300H600L680 392V440H275Z"/><path class="s-board" d="M323.3 320H617.4M316.7 340H634.8"/><circle class="s-bush" cx="298" cy="290" r="15"/><circle class="s-bush" cx="318" cy="297" r="10"/><circle class="s-bush" cx="622" cy="288" r="14"/><rect class="s-car" x="472" y="114" width="96" height="32" rx="9"/><rect class="s-glass" x="492" y="118" width="54" height="11" rx="3"/><circle class="s-tire" cx="490" cy="146" r="5"/><circle class="s-tire" cx="550" cy="146" r="5"/></g><ellipse class="shadow" cx="150" cy="177" rx="8.6" ry="2.4"/><g class="s-person"><circle cx="150" cy="147.4" r="4.4"/><rect x="143.9" y="152.5" width="12.2" height="24.5" rx="5.1"/></g><ellipse class="shadow" cx="440" cy="262" rx="17.6" ry="3.8"/><g class="s-person"><circle cx="440" cy="201.1" r="9.1"/><rect x="427.4" y="211.6" width="25.2" height="50.4" rx="10.6"/></g></svg></div>
+              <div class="pl"><span>A</span><h4>Frame</h4></div>
+              <p>The current image from <code>get_latest_frame</code>.</p>
+            </div>
+            <div class="panel">
+              <div class="shot"><svg viewBox="0 0 640 360" role="img" aria-label="Person heat map: activity on the sidewalk, the walkway, a dwell hotspot on the porch and a shortcut across the lawn."><defs><radialGradient id="hp-lp"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-lp"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-lp" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-lp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><g><rect class="s-sky" x="-80" y="-80" width="800" height="190"/><path class="s-nb" d="M30 104V64l48-30 48 30v40zM240 104V72l40-24 40 24v32zM452 104V60l54-32 54 32v44z"/><path class="s-win" d="M64 74h28v16H64zM268 80h24v14h-24zM492 70h28v16h-28z"/><rect class="s-nbl" x="-80" y="100" width="800" height="10"/><rect class="s-road" x="-80" y="108" width="800" height="46"/><path class="s-dash" d="M-80 131H720"/><rect class="s-curb" x="-80" y="154" width="800" height="5"/><rect class="s-walk" x="-80" y="158" width="800" height="24"/><rect class="s-lawn" x="-80" y="182" width="800" height="260"/><path class="s-drive" d="M55 182H190L278 400H-80V349Z"/><path class="s-path" d="M392 182H428L470 300H410Z"/><path class="s-porch" d="M330 300H600L680 392V440H275Z"/><path class="s-board" d="M323.3 320H617.4M316.7 340H634.8"/><circle class="s-bush" cx="298" cy="290" r="15"/><circle class="s-bush" cx="318" cy="297" r="10"/><circle class="s-bush" cx="622" cy="288" r="14"/><rect class="s-car" x="472" y="114" width="96" height="32" rx="9"/><rect class="s-glass" x="492" y="118" width="54" height="11" rx="3"/><circle class="s-tire" cx="490" cy="146" r="5"/><circle class="s-tire" cx="550" cy="146" r="5"/></g><rect class="veil" x="0" y="0" width="640" height="360"/><ellipse cx="70" cy="171" rx="95" ry="13" fill="url(#hp-lp)" opacity="0.9"/><ellipse cx="210" cy="171" rx="95" ry="13" fill="url(#hp-lp)" opacity="0.9"/><ellipse cx="350" cy="171" rx="95" ry="13" fill="url(#hp-lp)" opacity="1"/><ellipse cx="490" cy="171" rx="95" ry="13" fill="url(#hp-lp)" opacity="0.9"/><ellipse cx="610" cy="171" rx="70" ry="13" fill="url(#hp-lp)" opacity="0.8"/><ellipse cx="411" cy="197" rx="20" ry="22" fill="url(#hp-lp)" opacity="1"/><ellipse cx="424" cy="226" rx="24" ry="28" fill="url(#hp-lp)" opacity="1"/><ellipse cx="438" cy="257" rx="28" ry="32" fill="url(#hp-lp)" opacity="1"/><ellipse cx="452" cy="288" rx="34" ry="26" fill="url(#hp-lp)" opacity="1"/><ellipse cx="455" cy="322" rx="66" ry="28" fill="url(#hp-lp)" opacity="1"/><ellipse cx="455" cy="322" rx="40" ry="18" fill="url(#hp-lp)" opacity="1"/><ellipse cx="225" cy="296" rx="34" ry="12" fill="url(#hp-lp)" opacity="0.7" transform="rotate(8 225 296)"/><ellipse cx="265" cy="305" rx="34" ry="12" fill="url(#hp-lp)" opacity="0.7" transform="rotate(8 265 305)"/><ellipse cx="302" cy="313" rx="32" ry="12" fill="url(#hp-lp)" opacity="0.7" transform="rotate(8 302 313)"/><g class="tag"><rect x="12" y="189.5" width="103.1" height="31" rx="7"/><text x="21" y="205" dominant-baseline="central" font-size="19">sidewalk</text></g><g class="tag"><rect x="500" y="321.5" width="122.7" height="29" rx="7"/><text x="509" y="336" dominant-baseline="central" font-size="17">porch dwell</text></g><g class="tag"><rect x="150" y="325.5" width="141.8" height="29" rx="7"/><text x="159" y="340" dominant-baseline="central" font-size="17">lawn shortcut</text></g></svg></div>
+              <div class="pl"><span>B</span><h4>Person heat map</h4></div>
+              <p>Seven days of person footprints. The heat shows the sidewalk, the walkway and a shortcut across the lawn. A vision model cannot see the shortcut in one frame.</p>
+            </div>
+            <div class="panel">
+              <div class="shot"><svg viewBox="0 0 640 360" role="img" aria-label="Vehicle heat map: traffic on the street, a hot parked car, and cars on the driveway."><defs><radialGradient id="hp-lc"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-lc"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-lc" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-lc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><g><rect class="s-sky" x="-80" y="-80" width="800" height="190"/><path class="s-nb" d="M30 104V64l48-30 48 30v40zM240 104V72l40-24 40 24v32zM452 104V60l54-32 54 32v44z"/><path class="s-win" d="M64 74h28v16H64zM268 80h24v14h-24zM492 70h28v16h-28z"/><rect class="s-nbl" x="-80" y="100" width="800" height="10"/><rect class="s-road" x="-80" y="108" width="800" height="46"/><path class="s-dash" d="M-80 131H720"/><rect class="s-curb" x="-80" y="154" width="800" height="5"/><rect class="s-walk" x="-80" y="158" width="800" height="24"/><rect class="s-lawn" x="-80" y="182" width="800" height="260"/><path class="s-drive" d="M55 182H190L278 400H-80V349Z"/><path class="s-path" d="M392 182H428L470 300H410Z"/><path class="s-porch" d="M330 300H600L680 392V440H275Z"/><path class="s-board" d="M323.3 320H617.4M316.7 340H634.8"/><circle class="s-bush" cx="298" cy="290" r="15"/><circle class="s-bush" cx="318" cy="297" r="10"/><circle class="s-bush" cx="622" cy="288" r="14"/><rect class="s-car" x="472" y="114" width="96" height="32" rx="9"/><rect class="s-glass" x="492" y="118" width="54" height="11" rx="3"/><circle class="s-tire" cx="490" cy="146" r="5"/><circle class="s-tire" cx="550" cy="146" r="5"/></g><rect class="veil" x="0" y="0" width="640" height="360"/><ellipse cx="60" cy="131" rx="100" ry="16" fill="url(#hc-lc)" opacity="0.85"/><ellipse cx="200" cy="131" rx="100" ry="16" fill="url(#hc-lc)" opacity="0.9"/><ellipse cx="340" cy="131" rx="100" ry="16" fill="url(#hc-lc)" opacity="0.85"/><ellipse cx="600" cy="131" rx="90" ry="16" fill="url(#hc-lc)" opacity="0.8"/><ellipse cx="520" cy="130" rx="70" ry="24" fill="url(#hc-lc)" opacity="1"/><ellipse cx="520" cy="130" rx="44" ry="16" fill="url(#hc-lc)" opacity="1"/><ellipse cx="140" cy="245" rx="40" ry="46" fill="url(#hc-lc)" opacity="0.8"/><ellipse cx="160" cy="300" rx="58" ry="44" fill="url(#hc-lc)" opacity="1"/><ellipse cx="120" cy="335" rx="70" ry="30" fill="url(#hc-lc)" opacity="0.8"/><g class="tag"><rect x="12" y="72.5" width="81.8" height="31" rx="7"/><text x="21" y="88" dominant-baseline="central" font-size="19">street</text></g><g class="tag"><rect x="384" y="67.5" width="179.8" height="29" rx="7"/><text x="393" y="82" dominant-baseline="central" font-size="17">parked: cap dwell</text></g><g class="tag"><rect x="222" y="234.5" width="103.1" height="31" rx="7"/><text x="231" y="250" dominant-baseline="central" font-size="19">driveway</text></g></svg></div>
+              <div class="pl"><span>C</span><h4>Vehicle heat map</h4></div>
+              <p>Cars use the street and the driveway. The parked car stays for hours, so its dwell weight must have a limit.</p>
+            </div>
+            <div class="panel">
+              <div class="shot"><svg viewBox="0 0 640 360" role="img" aria-label="Numbered regions: 1 road, 2 sidewalk, 3 driveway, 4 walkway, 5 porch, 6 lawn, 7 neighbor property, 8 parked vehicle."><defs><radialGradient id="hp-lr"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-lr"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-lr" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-lr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><g><rect class="s-sky" x="-80" y="-80" width="800" height="190"/><path class="s-nb" d="M30 104V64l48-30 48 30v40zM240 104V72l40-24 40 24v32zM452 104V60l54-32 54 32v44z"/><path class="s-win" d="M64 74h28v16H64zM268 80h24v14h-24zM492 70h28v16h-28z"/><rect class="s-nbl" x="-80" y="100" width="800" height="10"/><rect class="s-road" x="-80" y="108" width="800" height="46"/><path class="s-dash" d="M-80 131H720"/><rect class="s-curb" x="-80" y="154" width="800" height="5"/><rect class="s-walk" x="-80" y="158" width="800" height="24"/><rect class="s-lawn" x="-80" y="182" width="800" height="260"/><path class="s-drive" d="M55 182H190L278 400H-80V349Z"/><path class="s-path" d="M392 182H428L470 300H410Z"/><path class="s-porch" d="M330 300H600L680 392V440H275Z"/><path class="s-board" d="M323.3 320H617.4M316.7 340H634.8"/><circle class="s-bush" cx="298" cy="290" r="15"/><circle class="s-bush" cx="318" cy="297" r="10"/><circle class="s-bush" cx="622" cy="288" r="14"/><rect class="s-car" x="472" y="114" width="96" height="32" rx="9"/><rect class="s-glass" x="492" y="118" width="54" height="11" rx="3"/><circle class="s-tire" cx="490" cy="146" r="5"/><circle class="s-tire" cx="550" cy="146" r="5"/></g><rect class="veil lt" x="0" y="0" width="640" height="360"/><rect class="rg" x="2" y="108" width="636" height="46"/><rect class="rg" x="2" y="158" width="636" height="24"/><polygon class="rg" points="55,182 190,182 262,360 0,360 0,262"/><polygon class="rg" points="392,182 428,182 470,300 410,300"/><polygon class="rg" points="330,300 600,300 640,346 640,360 310,360"/><rect class="rg" x="2" y="28" width="636" height="74"/><rect class="rg" x="470" y="112" width="100" height="40" rx="10"/><g class="badge"><circle cx="40" cy="131" r="16"/><text x="40" y="131.5" text-anchor="middle" dominant-baseline="central">1</text></g><g class="badge"><circle cx="330" cy="170" r="16"/><text x="330" y="170.5" text-anchor="middle" dominant-baseline="central">2</text></g><g class="badge"><circle cx="118" cy="262" r="16"/><text x="118" y="262.5" text-anchor="middle" dominant-baseline="central">3</text></g><g class="badge"><circle cx="433" cy="242" r="16"/><text x="433" y="242.5" text-anchor="middle" dominant-baseline="central">4</text></g><g class="badge"><circle cx="472" cy="330" r="16"/><text x="472" y="330.5" text-anchor="middle" dominant-baseline="central">5</text></g><g class="badge"><circle cx="565" cy="238" r="16"/><text x="565" y="238.5" text-anchor="middle" dominant-baseline="central">6</text></g><g class="badge"><circle cx="388" cy="66" r="16"/><text x="388" y="66.5" text-anchor="middle" dominant-baseline="central">7</text></g><g class="badge"><circle cx="600" cy="131" r="16"/><text x="600" y="131.5" text-anchor="middle" dominant-baseline="central">8</text></g></svg></div>
+              <div class="pl"><span>D</span><h4>Numbered regions</h4></div>
+              <p>Segmentation gives each area an exact outline. The numbers let the LLM refer to an area without coordinates.</p>
+            </div>
+          </div>
+          <figcaption><b>Figure 4.</b> One camera, four layers. The fusion step reads all four. Illustration, not real data.</figcaption>
+        </figure>
+      </section>
+
+      <!-- 5 WORKSTREAMS -->
+      <section id="workstreams">
+        <div class="sec-head"><span class="sec-num">05</span><h2>The four workstreams</h2></div>
+
+        <article class="ws">
+          <div class="ws-head">
+            <h3><span class="ws-id">WS1</span>Frame and history tools</h3>
+            <div class="tags"><span class="chip">Week 1</span><span class="chip">D2</span></div>
+          </div>
+          <p class="goal">Give an LLM small, safe tools to read Bahadur cameras. This is a thin wrapper over Bahadur's HTTP API, as an MCP server plus a Python client. It takes days, not weeks.</p>
+          <div class="tbl">
+            <table>
+              <thead><tr><th>Tool</th><th>It returns</th></tr></thead>
+              <tbody>
+                <tr><td class="k">list_cameras()</td><td>Cameras, resolution, detect-stream size, current zones and masks.</td></tr>
+                <tr><td class="k">get_latest_frame(camera, options)</td><td>The current frame. Optional overlays: boxes, zones, motion boxes. Optional downscale.</td></tr>
+                <tr><td class="k">get_frames(camera, start, end, count, filter)</td><td>A sample of past frames or event snapshots, so the model sees day, night and activity. Filter by object label.</td></tr>
+                <tr><td class="k">get_object_history(camera, start, end, labels)</td><td>Positions of tracked objects over time: bottom-center points and boxes. This is the raw input for the heat map.</td></tr>
+                <tr><td class="k">get_config(camera)</td><td>The camera section of the config.</td></tr>
+                <tr><td class="k">propose_config_patch(camera, zones)</td><td>A validated zone patch. It stages the patch. It does not apply it.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul class="dash">
+            <li><span>Authenticate against Bahadur's API. Obey its auth model.</span></li>
+            <li><span>Return compact, structured results that fit in an LLM context.</span></li>
+            <li><span>Do not block Bahadur's detection loop.</span></li>
+          </ul>
+          <p class="done"><b>Done when</b> An LLM client can list cameras, get a frame and get object history through the MCP server.</p>
+        </article>
+
+        <article class="ws">
+          <div class="ws-head">
+            <h3><span class="ws-id">WS2</span>Heat map</h3>
+            <div class="tags"><span class="chip">Week 1</span><span class="chip">D3</span></div>
+          </div>
+          <p class="goal">Make a map of where objects actually move, for each camera.</p>
+          <figure>
+            <div class="fig-scroll"><svg viewBox="0 0 1000 200" role="img" aria-label="Heat map pipeline: footprints, grid accumulation, smoothing and threshold, contour, and a simplified polygon with a confidence score."><defs><radialGradient id="hp-hs"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-hs"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-hs" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-hs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><text class="bt" x="20" y="28">1  Footprints</text><rect class="pf" x="20" y="44" width="170" height="120" rx="8"/><g transform="translate(20 44)"><circle class="dot" cx="19.7" cy="100" r="2.8"/><circle class="dot" cx="19.6" cy="105" r="2.8"/><circle class="dot" cx="36.1" cy="90.4" r="2.8"/><circle class="dot" cx="40.5" cy="104.9" r="2.8"/><circle class="dot" cx="31.9" cy="89.4" r="2.8"/><circle class="dot" cx="38.3" cy="95.3" r="2.8"/><circle class="dot" cx="53" cy="92.8" r="2.8"/><circle class="dot" cx="41.8" cy="74.4" r="2.8"/><circle class="dot" cx="53.8" cy="85.8" r="2.8"/><circle class="dot" cx="61.1" cy="73.1" r="2.8"/><circle class="dot" cx="55.3" cy="77" r="2.8"/><circle class="dot" cx="62.6" cy="81" r="2.8"/><circle class="dot" cx="74.4" cy="69" r="2.8"/><circle class="dot" cx="86.4" cy="68.4" r="2.8"/><circle class="dot" cx="88.2" cy="63.6" r="2.8"/><circle class="dot" cx="86" cy="59.5" r="2.8"/><circle class="dot" cx="97.7" cy="51.5" r="2.8"/><circle class="dot" cx="102.6" cy="60.6" r="2.8"/><circle class="dot" cx="103.6" cy="45.2" r="2.8"/><circle class="dot" cx="102.3" cy="58.5" r="2.8"/><circle class="dot" cx="112.4" cy="45.7" r="2.8"/><circle class="dot" cx="106.5" cy="52.2" r="2.8"/><circle class="dot" cx="113.3" cy="41.4" r="2.8"/><circle class="dot" cx="122.6" cy="33.3" r="2.8"/><circle class="dot" cx="122.9" cy="28.3" r="2.8"/><circle class="dot" cx="129.4" cy="39.6" r="2.8"/><circle class="dot" cx="133.4" cy="32.2" r="2.8"/><circle class="dot" cx="144.6" cy="35.2" r="2.8"/><circle class="dot" cx="150" cy="21.4" r="2.8"/><circle class="dot" cx="143.2" cy="22.3" r="2.8"/><circle class="dot" cx="30" cy="30" r="2.8" opacity=".55"/><circle class="dot" cx="140" cy="100" r="2.8" opacity=".55"/><circle class="dot" cx="60" cy="20" r="2.8" opacity=".55"/><circle class="dot" cx="120" cy="70" r="2.8" opacity=".55"/></g><text class="al" x="20" y="188">bottom-center points</text><path class="ar" d="M194 104.0H211" marker-end="url(#mk-hs)"/><text class="bt" x="216" y="28">2  Accumulate</text><rect class="pf" x="216" y="44" width="170" height="120" rx="8"/><g transform="translate(216 44)"><rect class="cell" x="5" y="80" width="20" height="20" opacity="0.39"/><rect class="cell" x="5" y="100" width="20" height="20" opacity="0.63"/><rect class="cell" x="25" y="60" width="20" height="20" opacity="0.19"/><rect class="cell" x="25" y="80" width="20" height="20" opacity="0.77"/><rect class="cell" x="25" y="100" width="20" height="20" opacity="0.37"/><rect class="cell" x="45" y="40" width="20" height="20" opacity="0.04"/><rect class="cell" x="45" y="60" width="20" height="20" opacity="0.52"/><rect class="cell" x="45" y="80" width="20" height="20" opacity="0.61"/><rect class="cell" x="45" y="100" width="20" height="20" opacity="0.09"/><rect class="cell" x="65" y="40" width="20" height="20" opacity="0.30"/><rect class="cell" x="65" y="60" width="20" height="20" opacity="0.87"/><rect class="cell" x="65" y="80" width="20" height="20" opacity="0.26"/><rect class="cell" x="85" y="20" width="20" height="20" opacity="0.12"/><rect class="cell" x="85" y="40" width="20" height="20" opacity="0.66"/><rect class="cell" x="85" y="60" width="20" height="20" opacity="0.47"/><rect class="cell" x="105" y="20" width="20" height="20" opacity="0.42"/><rect class="cell" x="105" y="40" width="20" height="20" opacity="0.71"/><rect class="cell" x="105" y="60" width="20" height="20" opacity="0.15"/><rect class="cell" x="125" y="0" width="20" height="20" opacity="0.22"/><rect class="cell" x="125" y="20" width="20" height="20" opacity="0.82"/><rect class="cell" x="125" y="40" width="20" height="20" opacity="0.34"/><rect class="cell" x="145" y="0" width="20" height="20" opacity="0.43"/><rect class="cell" x="145" y="20" width="20" height="20" opacity="0.57"/><rect class="cell" x="145" y="40" width="20" height="20" opacity="0.06"/><path class="grd" d="M5 0V120"/><path class="grd" d="M25 0V120"/><path class="grd" d="M45 0V120"/><path class="grd" d="M65 0V120"/><path class="grd" d="M85 0V120"/><path class="grd" d="M105 0V120"/><path class="grd" d="M125 0V120"/><path class="grd" d="M145 0V120"/><path class="grd" d="M165 0V120"/><path class="grd" d="M5 0H165"/><path class="grd" d="M5 20H165"/><path class="grd" d="M5 40H165"/><path class="grd" d="M5 60H165"/><path class="grd" d="M5 80H165"/><path class="grd" d="M5 100H165"/><path class="grd" d="M5 120H165"/></g><text class="al" x="216" y="188">grid × dwell weight</text><path class="ar" d="M390 104.0H407" marker-end="url(#mk-hs)"/><text class="bt" x="412" y="28">3  Smooth + threshold</text><rect class="pf" x="412" y="44" width="170" height="120" rx="8"/><g transform="translate(412 44)"><g transform="rotate(-31 85 63)"><ellipse cx="85" cy="63" rx="80" ry="24" fill="url(#hp-hs)"/><ellipse class="thr" cx="85" cy="63" rx="60" ry="13"/></g></g><text class="al" x="412" y="188">Gaussian blur</text><path class="ar" d="M586 104.0H603" marker-end="url(#mk-hs)"/><text class="bt" x="608" y="28">4  Trace contour</text><rect class="pf" x="608" y="44" width="170" height="120" rx="8"/><g transform="translate(608 44)"><polygon class="ct" points="133.8,33.7 142.2,31.2 135.9,37.1 135.5,39.8 131.5,44.2 125.8,49.1 120.9,53.8 113.7,59 108.4,64.1 98.4,68.7 91.3,73.6 83.5,79.6 74.9,84.4 69.5,84.3 59.9,90.5 53.2,92.9 49.3,92.9 39.9,97.4 33.8,98.9 31.4,97.7 35.6,92.7 36.3,90 38.7,86.5 34.9,86.1 34.6,83.4 39.9,78.3 46.2,72.9 56.9,66.9 63.4,62 69.3,56.4 77.9,51.2 86.3,48.7 94.2,43.6 101.2,40.7 107.3,38.6 118.9,31.2 126.8,28 126.7,31.2 132.3,29.8 136.7,29.5"/></g><text class="al" x="608" y="188">cv2.findContours</text><path class="ar" d="M782 104.0H799" marker-end="url(#mk-hs)"/><text class="bt" x="804" y="28">5  Simplify + score</text><rect class="pf" x="804" y="44" width="170" height="120" rx="8"/><g transform="translate(804 44)"><polygon class="z" style="stroke-width:2" points="138.1,28.1 124.7,48.7 56.4,89.7 31.9,91.9 45.3,71.3 113.6,30.3"/><circle class="zv" cx="138.1" cy="28.1" r="3.4"/><circle class="zv" cx="124.7" cy="48.7" r="3.4"/><circle class="zv" cx="56.4" cy="89.7" r="3.4"/><circle class="zv" cx="31.9" cy="91.9" r="3.4"/><circle class="zv" cx="45.3" cy="71.3" r="3.4"/><circle class="zv" cx="113.6" cy="30.3" r="3.4"/><text class="al" x="160" y="112" text-anchor="end">conf 0.82</text></g><text class="al" x="804" y="188">≤ 12 vertices</text></svg></div>
+            <figcaption><b>Figure 5.</b> The heat map pipeline, from points to one candidate polygon.</figcaption>
+          </figure>
+          <ol class="steps">
+            <li><span>Get the bottom-center points of tracked objects for a time window. The default window is 7 days.</span></li>
+            <li><span>Add each point to a grid at detect-stream resolution. Weight each point by label and dwell time.</span></li>
+            <li><span>Keep one map for each label class: person, car, dog, package. You can also keep one map for each time of day.</span></li>
+            <li><span>Smooth the grid. Find the connected high-activity areas: blobs, paths (entry and exit routes) and dwell hotspots.</span></li>
+            <li><span>Change each area into a simplified polygon with a confidence score.</span></li>
+            <li><span>Render the map as an image overlay. The LLM and the user both see this image.</span></li>
+          </ol>
+          <div class="callout">
+            <span class="lbl">NOTE</span>
+            <div><p>Parked cars and other stationary objects stay in one place for hours. Dwell weight then makes them the hottest spot on the map. Set a maximum dwell weight for each tracked object.</p></div>
+          </div>
+          <p class="done"><b>Done when</b> The CLI renders a heat map overlay for a camera from its object history.</p>
+        </article>
+
+        <article class="ws">
+          <div class="ws-head">
+            <h3><span class="ws-id">WS3</span>Scene understanding</h3>
+            <div class="tags"><span class="chip">Week 2</span><span class="chip">D4</span></div>
+          </div>
+          <p class="goal">Name the areas in the frame and give each area a precise outline. Use models that already exist. Do not train or fine-tune a model.</p>
+          <div class="chips">
+            <span class="chip">driveway</span><span class="chip">sidewalk</span><span class="chip">road</span><span class="chip">lawn</span><span class="chip">porch</span><span class="chip">door</span><span class="chip">gate</span><span class="chip">pool</span><span class="chip">fence line</span><span class="chip">parked vehicles</span><span class="chip">neighbor property</span>
+          </div>
+          <ol class="steps">
+            <li><span>Use a vision-language model (VLM) to name the regions.</span></li>
+            <li><span>Use a segmentation model (SAM or similar) to get the exact polygon of each region.</span></li>
+            <li><span>Return each region with a label and a confidence. Also return the apparent field of view and horizon of the camera.</span></li>
+            <li><span>Use a local open-weight model by default. Support cloud vision APIs through the same interface.</span></li>
+          </ol>
+          <div class="callout caution">
+            <span class="lbl">CAUTION</span>
+            <div><p>Night and infrared frames have little color and detail. If the confidence is low, report it. Do not guess.</p></div>
+          </div>
+          <p class="muted" style="font-size:14.5px">Example output for the camera in Figure 4 (example values):</p>
+<pre><code>[
+  {"id": 1, "label": "road",              "conf": 0.94, "heat": {"person": 0.03, "car": 0.74}},
+  {"id": 2, "label": "sidewalk",          "conf": 0.88, "heat": {"person": 0.38, "car": 0.00}},
+  {"id": 3, "label": "driveway",          "conf": 0.91, "heat": {"person": 0.12, "car": 0.26}},
+  {"id": 4, "label": "walkway",           "conf": 0.72, "heat": {"person": 0.21, "car": 0.00}},
+  {"id": 5, "label": "porch",             "conf": 0.86, "heat": {"person": 0.19, "car": 0.00}},
+  {"id": 6, "label": "lawn",              "conf": 0.90, "heat": {"person": 0.07, "car": 0.00}},
+  {"id": 7, "label": "neighbor_property", "conf": 0.64, "heat": {"person": 0.00, "car": 0.00}},
+  {"id": 8, "label": "parked_vehicle",    "conf": 0.97, "transient": true}
+]</code></pre>
+          <p class="done"><b>Done when</b> The module returns labeled polygons for the sample cameras, and an evaluation set of 20 or more annotated frames exists.</p>
+        </article>
+
+        <article class="ws">
+          <div class="ws-head">
+            <h3><span class="ws-id">WS4</span>Intent-driven zone drawing</h3>
+            <div class="tags"><span class="chip">Weeks 3–4</span><span class="chip">D5 · D6</span></div>
+          </div>
+          <p class="goal">Turn the user's sentence into correct zones. This is the orchestration layer. It calls the tools, reads the analysis and writes the zones.</p>
+          <ol class="steps">
+            <li><span>Parse the prompt into structured goals: areas to watch or ignore, object types, alert or detection, loitering.</span></li>
+            <li><span>Combine heat-map regions and semantic regions according to the goals. Example: “watch the porch” means the porch region plus the approach path that the heat map shows.</span></li>
+            <li><span>Make valid zones. See the rules below.</span></li>
+            <li><span>Show the zones as an overlay in the Bahadur UI. Let the user accept, edit or reject each zone.</span></li>
+            <li><span>Apply the accepted zones through Bahadur's existing save path and restart handling.</span></li>
+            <li><span>Accept follow-up prompts, for example “make the driveway zone stop at the sidewalk”.</span></li>
+          </ol>
+          <figure>
+            <div class="pair">
+              <div>
+                <div class="composer"><div class="msg">Alert me when someone reaches the porch. Ignore the street.</div></div>
+                <div class="shot"><svg viewBox="0 0 640 360" role="img" aria-label="Prompt A result: one alert zone over the porch and walkway; the street is ignored."><defs><radialGradient id="hp-za"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-za"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-za" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-za" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><g><rect class="s-sky" x="-80" y="-80" width="800" height="190"/><path class="s-nb" d="M30 104V64l48-30 48 30v40zM240 104V72l40-24 40 24v32zM452 104V60l54-32 54 32v44z"/><path class="s-win" d="M64 74h28v16H64zM268 80h24v14h-24zM492 70h28v16h-28z"/><rect class="s-nbl" x="-80" y="100" width="800" height="10"/><rect class="s-road" x="-80" y="108" width="800" height="46"/><path class="s-dash" d="M-80 131H720"/><rect class="s-curb" x="-80" y="154" width="800" height="5"/><rect class="s-walk" x="-80" y="158" width="800" height="24"/><rect class="s-lawn" x="-80" y="182" width="800" height="260"/><path class="s-drive" d="M55 182H190L278 400H-80V349Z"/><path class="s-path" d="M392 182H428L470 300H410Z"/><path class="s-porch" d="M330 300H600L680 392V440H275Z"/><path class="s-board" d="M323.3 320H617.4M316.7 340H634.8"/><circle class="s-bush" cx="298" cy="290" r="15"/><circle class="s-bush" cx="318" cy="297" r="10"/><circle class="s-bush" cx="622" cy="288" r="14"/><rect class="s-car" x="472" y="114" width="96" height="32" rx="9"/><rect class="s-glass" x="492" y="118" width="54" height="11" rx="3"/><circle class="s-tire" cx="490" cy="146" r="5"/><circle class="s-tire" cx="550" cy="146" r="5"/></g><rect class="veil" x="0" y="0" width="640" height="360"/><rect x="0" y="108" width="640" height="46" fill="url(#hx-za)"/><path class="ign-edge" d="M0 108H640M0 154H640"/><polygon class="z" points="392,182 428,182 470,300 600,300 640,346 640,360 310,360 330,300 410,300"/><circle class="zv" cx="392" cy="182" r="5"/><circle class="zv" cx="428" cy="182" r="5"/><circle class="zv" cx="470" cy="300" r="5"/><circle class="zv" cx="600" cy="300" r="5"/><circle class="zv" cx="640" cy="346" r="5"/><circle class="zv" cx="640" cy="360" r="5"/><circle class="zv" cx="310" cy="360" r="5"/><circle class="zv" cx="330" cy="300" r="5"/><circle class="zv" cx="410" cy="300" r="5"/><g class="tag gray"><rect x="12" y="115.5" width="167" height="31" rx="7"/><text x="21" y="131" dominant-baseline="central" font-size="19">street ignored</text></g><g class="tag"><rect x="452" y="217.5" width="151.3" height="29" rx="7"/><text x="461" y="232" dominant-baseline="central" font-size="17">porch_approach</text></g></svg></div>
+<pre><code>{"watch": [{
+    "area": "porch",
+    "objects": ["person"],
+    "level": "alert"}],
+ "ignore": ["street"]}</code></pre>
+              </div>
+              <div>
+                <div class="composer"><div class="msg">Watch the street for packages left at the curb.</div></div>
+                <div class="shot"><svg viewBox="0 0 640 360" role="img" aria-label="Prompt B result: one zone along the curb and sidewalk that alerts on packages."><defs><radialGradient id="hp-zb"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-zb"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-zb" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-zb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><g><rect class="s-sky" x="-80" y="-80" width="800" height="190"/><path class="s-nb" d="M30 104V64l48-30 48 30v40zM240 104V72l40-24 40 24v32zM452 104V60l54-32 54 32v44z"/><path class="s-win" d="M64 74h28v16H64zM268 80h24v14h-24zM492 70h28v16h-28z"/><rect class="s-nbl" x="-80" y="100" width="800" height="10"/><rect class="s-road" x="-80" y="108" width="800" height="46"/><path class="s-dash" d="M-80 131H720"/><rect class="s-curb" x="-80" y="154" width="800" height="5"/><rect class="s-walk" x="-80" y="158" width="800" height="24"/><rect class="s-lawn" x="-80" y="182" width="800" height="260"/><path class="s-drive" d="M55 182H190L278 400H-80V349Z"/><path class="s-path" d="M392 182H428L470 300H410Z"/><path class="s-porch" d="M330 300H600L680 392V440H275Z"/><path class="s-board" d="M323.3 320H617.4M316.7 340H634.8"/><circle class="s-bush" cx="298" cy="290" r="15"/><circle class="s-bush" cx="318" cy="297" r="10"/><circle class="s-bush" cx="622" cy="288" r="14"/><rect class="s-car" x="472" y="114" width="96" height="32" rx="9"/><rect class="s-glass" x="492" y="118" width="54" height="11" rx="3"/><circle class="s-tire" cx="490" cy="146" r="5"/><circle class="s-tire" cx="550" cy="146" r="5"/></g><rect class="veil" x="0" y="0" width="640" height="360"/><rect class="s-pkg" x="244" y="160" width="18" height="14" rx="2"/><polygon class="z" points="0,150 640,150 640,188 0,188"/><circle class="zv" cx="0" cy="150" r="5"/><circle class="zv" cx="640" cy="150" r="5"/><circle class="zv" cx="640" cy="188" r="5"/><circle class="zv" cx="0" cy="188" r="5"/><g class="tag"><rect x="12" y="194.5" width="60.6" height="31" rx="7"/><text x="21" y="210" dominant-baseline="central" font-size="19">curb</text></g><g class="tag gray"><rect x="270" y="195.5" width="141.8" height="29" rx="7"/><text x="279" y="210" dominant-baseline="central" font-size="17">package alert</text></g></svg></div>
+<pre><code>{"watch": [{
+    "area": "curb",
+    "objects": ["package"],
+    "level": "alert"}],
+ "ignore": []}</code></pre>
+              </div>
+            </div>
+            <figcaption><b>Figure 6.</b> The same frame, two prompts, two different zone sets. The image alone does not decide the zones. The intent decides them. The code under each frame shows the structured goals that step 1 makes.</figcaption>
+          </figure>
+          <div class="prose">
+            <h4>Rules for a valid zone</h4>
+            <ul class="dash">
+              <li><span>A simplified polygon with 12 or fewer vertices.</span></li>
+              <li><span>All points inside the frame.</span></li>
+              <li><span>No self-intersection.</span></li>
+              <li><span>A clear name, for example <code>porch_approach</code>.</span></li>
+              <li><span>Suggested values for the <code>objects</code> filter, <code>inertia</code> and <code>loitering_time</code>.</span></li>
+              <li><span>A rationale in plain language for each zone.</span></li>
+            </ul>
+            <h4 style="margin-top:6px">Out of scope</h4>
+            <ul class="dash">
+              <li><span>Motion masks. This can be follow-on work.</span></li>
+              <li><span>Changes to Bahadur's detector, tracker or recording pipeline.</span></li>
+              <li><span>Hosting of cloud LLM services, or payment for them.</span></li>
+            </ul>
+          </div>
+          <p class="done"><b>Done when</b> A user types one sentence, examines the proposal, approves it, and the zones work.</p>
+        </article>
+      </section>
+
+      <!-- 6 SAFETY -->
+      <section id="safety">
+        <div class="sec-head"><span class="sec-num">06</span><h2>Safety rules</h2></div>
+        <div class="callout caution">
+          <span class="lbl">CAUTION</span>
+          <div><p>Do not write to <code>config.yml</code> before the user approves. A wrong zone can stop real alerts, for example an alert for a person at the door.</p></div>
+        </div>
+        <figure>
+          <div class="fig-frame fig-scroll"><svg viewBox="0 0 1130 256" role="img" aria-label="Approval flow: proposed zones go to a preview; accept or edit creates a staged patch, which is validated, saved through the existing path and goes live after restart; reject discards; a follow-up prompt returns to proposal."><defs><radialGradient id="hp-fl"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-fl"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-fl" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><rect class="bx" x="20" y="70" width="170" height="58" rx="10"/><text class="bt" x="105.0" y="94" text-anchor="middle">Proposed zones</text><text class="bs" x="105.0" y="113" text-anchor="middle">from the zone program</text><rect class="bx hi" x="240" y="70" width="180" height="58" rx="10"/><text class="bt" x="330.0" y="94" text-anchor="middle">Preview overlay</text><text class="bs" x="330.0" y="113" text-anchor="middle">one decision per zone</text><rect class="bx" x="530" y="70" width="170" height="58" rx="10"/><text class="bt" x="615.0" y="94" text-anchor="middle">Staged patch</text><text class="bs" x="615.0" y="113" text-anchor="middle">propose_config_patch</text><rect class="bx" x="760" y="70" width="160" height="58" rx="10"/><text class="bt" x="840.0" y="94" text-anchor="middle">config.yml saved</text><text class="bs" x="840.0" y="113" text-anchor="middle">existing save path</text><rect class="bx" x="980" y="70" width="130" height="58" rx="10"/><text class="bt" x="1045.0" y="94" text-anchor="middle">Zones live</text><text class="bs" x="1045.0" y="113" text-anchor="middle">after restart</text><rect class="bx" x="240" y="190" width="180" height="50" rx="10"/><text class="bt" x="330.0" y="214" text-anchor="middle">Discarded</text><text class="bs" x="330.0" y="233" text-anchor="middle">no change</text><path class="ar" d="M190 99.0H238" marker-end="url(#mk-fl)"/><text class="al" x="214" y="91.0" text-anchor="middle">show</text><path class="ar" d="M420 99.0H528" marker-end="url(#mk-fl)"/><text class="al" x="475" y="91.0" text-anchor="middle">accept / edit</text><path class="ar" d="M700 99.0H758" marker-end="url(#mk-fl)"/><text class="al" x="729" y="91.0" text-anchor="middle">validate</text><path class="ar" d="M920 99.0H978" marker-end="url(#mk-fl)"/><text class="al" x="949" y="91.0" text-anchor="middle">restart</text><path class="ar" d="M330 128V188" marker-end="url(#mk-fl)"/><text class="al" x="338" y="164" text-anchor="start">reject</text><path class="ar dash" d="M330 70C330 22 105 22 105 68" marker-end="url(#mk-fl)"/><text class="al" x="218" y="18" text-anchor="middle">follow-up prompt</text><path class="gate" d="M475 112V176"/><text class="gatet" x="483" y="168">user approval gate</text></svg></div>
+          <figcaption><b>Figure 7.</b> Each proposal stops at the approval gate. Only an accepted or edited zone becomes a patch, and only a valid patch reaches the config.</figcaption>
+        </figure>
+        <ul class="dash">
+          <li><span>Stage each change as a patch. Validate the patch before you save it.</span></li>
+          <li><span>Use Bahadur's existing save path. Do not write the YAML file directly.</span></li>
+          <li><span>Keep frames on the local machine by default. Send frames to a cloud API only when the user enables it.</span></li>
+          <li><span>Do not run heavy work inside the detection process.</span></li>
+        </ul>
+      </section>
+
+      <!-- 7 DELIVERABLES -->
+      <section id="deliverables">
+        <div class="sec-head"><span class="sec-num">07</span><h2>Deliverables and timeline</h2></div>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>#</th><th>Deliverable</th><th>Format</th><th>Due</th></tr></thead>
+            <tbody>
+              <tr><td class="n">D1</td><td>Design note, 5 pages maximum: architecture, tool schemas, chosen VLM and segmentation model, privacy model.</td><td>Markdown in repo</td><td>End of week 1</td></tr>
+              <tr><td class="n">D2</td><td>Frame and history tool layer (WS1), with schema docs and tests.</td><td>Python package + MCP server</td><td>Week 1</td></tr>
+              <tr><td class="n">D3</td><td>Heat map module (WS2), with a CLI for offline runs and image render.</td><td>Python module</td><td>Week 1</td></tr>
+              <tr><td class="n">D4</td><td>Scene understanding module (WS3) with backend adapters, plus an evaluation set of 20 or more annotated frames.</td><td>Python module + dataset</td><td>Week 2</td></tr>
+              <tr><td class="n">D5</td><td>Intent fusion and zone generation (WS4), with prompt templates and polygon post-processing.</td><td>Python module</td><td>Weeks 3–4</td></tr>
+              <tr><td class="n">D6</td><td>Bahadur UI integration: prompt entry, overlay preview, accept, edit or reject for each zone, apply.</td><td>React components + API routes</td><td>Weeks 3–4</td></tr>
+              <tr><td class="n">D7</td><td>Test suite: unit tests plus an integration run against a Bahadur container.</td><td>Repo + report</td><td>Week 5</td></tr>
+              <tr><td class="n">D8</td><td>User and developer documentation on Bahadur's docs site.</td><td>Markdown</td><td>Week 5</td></tr>
+              <tr><td class="n">D9</td><td>Pull request(s) against the Bahadur repository, with a recorded handover session.</td><td>PR + video</td><td>End of week 5</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted" style="font-size:14.5px">Deliver all code under Bahadur's license, with copyright assigned or licensed so that it can be merged upstream.</p>
+        <figure>
+          <div class="fig-frame fig-scroll"><svg viewBox="0 0 1000 366" role="img" aria-label="Timeline: week 1 frame tools and heat map, week 2 scene understanding, weeks 3 to 4 intent fusion and UI, week 5 testing and final PR; recommended additions: evaluation set, walking skeleton and model comparison in weeks 1 to 2; handover at the end of week 5."><defs><radialGradient id="hp-gt"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-gt"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-gt" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-gt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><text class="bs" x="368" y="28" text-anchor="middle" style="font-size:13.5px">Week 1</text><text class="bs" x="504" y="28" text-anchor="middle" style="font-size:13.5px">Week 2</text><text class="bs" x="640" y="28" text-anchor="middle" style="font-size:13.5px">Week 3</text><text class="bs" x="776" y="28" text-anchor="middle" style="font-size:13.5px">Week 4</text><text class="bs" x="912" y="28" text-anchor="middle" style="font-size:13.5px">Week 5</text><path class="gl" d="M300 40V352"/><path class="gl" d="M436 40V352"/><path class="gl" d="M572 40V352"/><path class="gl" d="M708 40V352"/><path class="gl" d="M844 40V352"/><path class="gl" d="M980 40V352"/><path class="gl end" d="M980 40V356"/><text class="gtx" x="20" y="72" dominant-baseline="central">Frame tools + heat map</text><rect class="gbar" x="304" y="60" width="128" height="24" rx="12"/><text class="gin mono" x="368" y="72" text-anchor="middle" dominant-baseline="central">D1 · D2 · D3</text><text class="gtx" x="20" y="110" dominant-baseline="central">Scene understanding</text><rect class="gbar" x="440" y="98" width="128" height="24" rx="12"/><text class="gin mono" x="504" y="110" text-anchor="middle" dominant-baseline="central">D4</text><text class="gtx" x="20" y="148" dominant-baseline="central">Intent fusion + UI</text><rect class="gbar" x="576" y="136" width="264" height="24" rx="12"/><text class="gin mono" x="708" y="148" text-anchor="middle" dominant-baseline="central">D5 · D6</text><text class="gtx" x="20" y="186" dominant-baseline="central">Testing + final PR</text><rect class="gbar" x="848" y="174" width="128" height="24" rx="12"/><text class="gin mono" x="912" y="186" text-anchor="middle" dominant-baseline="central">D7 · D8 · D9</text><text class="gsec mono" x="20" y="222">RECOMMENDED ADDITIONS</text><text class="gtx" x="20" y="248" dominant-baseline="central">Evaluation set, 20+ frames</text><rect class="gbar rec" x="372" y="237" width="196" height="22" rx="11"/><text class="gtx" x="20" y="280" dominant-baseline="central">Walking skeleton</text><rect class="gbar rec" x="378.8" y="269" width="53.2" height="22" rx="11"/><text class="gtx" x="20" y="312" dominant-baseline="central">Model comparison</text><rect class="gbar rec" x="440" y="301" width="128" height="22" rx="11"/><text class="gtx b" x="20" y="340" dominant-baseline="central">Milestones</text><path class="ms" d="M436 331L445 340L436 349L427 340Z"/><text class="al" x="421" y="340" text-anchor="end" dominant-baseline="central">draft PR + D1</text><path class="ms" d="M844 331L853 340L844 349L835 340Z"/><text class="al" x="829" y="340" text-anchor="end" dominant-baseline="central">first end-to-end</text><path class="ms" d="M980 331L989 340L980 349L971 340Z"/><text class="al" x="965" y="340" text-anchor="end" dominant-baseline="central">handover</text></svg></div>
+          <figcaption><b>Figure 8.</b> The handover plan (gray bars) and three additions that this manual recommends (orange, dashed). Each week ends with a written report and a demo.</figcaption>
+        </figure>
+        <div class="prose">
+          <h4>Working agreements</h4>
+          <ul class="dash">
+            <li><span>Work in a feature branch in the Bahadur repository. Open a draft PR in week 1.</span></li>
+            <li><span>Give a 10-minute stand-up each day: what shipped yesterday, what is next, and any blockers.</span></li>
+            <li><span>Send a written report against the milestones each week, together with a demo.</span></li>
+            <li><span>Choose the VLM, the segmentation model and the LLM backend yourself. Record each choice in D1 with one line of reasoning.</span></li>
+            <li><span>Report a blocker on the same day. Do not wait for the weekly update.</span></li>
+            <li><span>If five weeks is not sufficient, say so in week 1. Propose the smallest cut of scope that fits.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 8 LEARN -->
+      <section id="learn">
+        <div class="sec-head"><span class="sec-num">08</span><h2>What to learn</h2></div>
+        <div class="prose">
+          <p>Learn these topics in the order shown. Each group starts when its workstream starts. Tick a topic when you can explain it to another person. This page keeps your ticks in this browser only.</p>
+        </div>
+
+        <div class="learn-group">
+          <div class="lg-head"><h3>A. The product: Bahadur and Frigate</h3><span class="when">Before day 1</span></div>
+          <ul class="learn">
+            <li><input type="checkbox" id="l-a1"><div class="lx"><label for="l-a1">Zones and their keys</label><span class="what">Know <code>coordinates</code>, <code>objects</code>, <code>inertia</code>, <code>loitering_time</code> and zone <code>filters</code>.</span><span class="why"><i>WHY</i>Your output must be a valid zone.</span><a class="src" href="https://docs.frigate.video/configuration/zones" target="_blank" rel="noopener">Frigate docs: Zones</a></div></li>
+            <li><input type="checkbox" id="l-a2"><div class="lx"><label for="l-a2">Alerts and detections</label><span class="what">Know <code>review.alerts.required_zones</code> and <code>review.detections.required_zones</code>.</span><span class="why"><i>WHY</i>The words “alert me” in a prompt map to these keys.</span><a class="src" href="https://docs.frigate.video/configuration/review" target="_blank" rel="noopener">Frigate docs: Review</a></div></li>
+            <li><input type="checkbox" id="l-a3"><div class="lx"><label for="l-a3">The bottom-center rule and the detect stream</label><span class="what">Know which point Bahadur tests, and which frame size the coordinates refer to.</span><span class="why"><i>WHY</i>The heat map and the zones must use the same point and the same frame size.</span></div></li>
+            <li><input type="checkbox" id="l-a4"><div class="lx"><label for="l-a4">The HTTP API</label><span class="what">Know <code>latest.jpg</code> and its options (<code>h</code>, <code>bbox</code>, <code>zones</code>, <code>motion</code>), events, event snapshots, recording snapshots and the config endpoints.</span><span class="why"><i>WHY</i>Workstream 1 wraps these endpoints.</span><a class="src" href="https://docs.frigate.video/integrations/api" target="_blank" rel="noopener">Frigate docs: HTTP API</a></div></li>
+            <li><input type="checkbox" id="l-a5"><div class="lx"><label for="l-a5">Authentication</label><span class="what">Know the authenticated port, the login flow and the internal port.</span><span class="why"><i>WHY</i>The tools must obey Bahadur's auth model.</span><a class="src" href="https://docs.frigate.video/configuration/authentication" target="_blank" rel="noopener">Frigate docs: Authentication</a></div></li>
+            <li><input type="checkbox" id="l-a6"><div class="lx"><label for="l-a6">The database</label><span class="what">Know where tracked objects, timeline entries and review items are stored (SQLite through the Peewee ORM).</span><span class="why"><i>WHY</i><code>get_object_history</code> reads the raw heat-map input from here.</span><a class="src" href="https://github.com/blakeblackshear/frigate" target="_blank" rel="noopener">Frigate source code</a></div></li>
+            <li><input type="checkbox" id="l-a7"><div class="lx"><label for="l-a7">Run Bahadur in Docker</label><span class="what">Run a container with test cameras that loop recorded video files.</span><span class="why"><i>WHY</i>You need cameras that give the same result each time, from day 1.</span><a class="src" href="https://docs.frigate.video/frigate/installation" target="_blank" rel="noopener">Frigate docs: Installation</a></div></li>
+          </ul>
+        </div>
+
+        <div class="learn-group">
+          <div class="lg-head"><h3>B. The tool layer (WS1)</h3><span class="when">Week 1</span></div>
+          <ul class="learn">
+            <li><input type="checkbox" id="l-b1"><div class="lx"><label for="l-b1">Python HTTP clients and Pydantic</label><span class="what">Use <code>httpx</code> (async) and a Pydantic model for each tool result.</span><span class="why"><i>WHY</i>Typed results stay compact and are easy to validate.</span><a class="src" href="https://docs.pydantic.dev/latest/" target="_blank" rel="noopener">Pydantic docs</a></div></li>
+            <li><input type="checkbox" id="l-b2"><div class="lx"><label for="l-b2">Model Context Protocol (MCP)</label><span class="what">Know tools, input schemas, and the stdio and HTTP transports. Use the Python SDK (FastMCP).</span><span class="why"><i>WHY</i>D2 is an MCP server.</span><a class="src" href="https://github.com/modelcontextprotocol/python-sdk" target="_blank" rel="noopener">MCP Python SDK</a></div></li>
+            <li><input type="checkbox" id="l-b3"><div class="lx"><label for="l-b3">LLM tool calls and the token budget</label><span class="what">Know how a model calls a tool and reads the result. Know how many tokens an image or a JSON list uses.</span><span class="why"><i>WHY</i>Tools must return results that fit in an LLM context.</span><a class="src" href="https://modelcontextprotocol.io/docs/concepts/tools" target="_blank" rel="noopener">MCP: Tools</a></div></li>
+          </ul>
+        </div>
+
+        <div class="learn-group">
+          <div class="lg-head"><h3>C. Images and geometry (WS2)</h3><span class="when">Week 1</span></div>
+          <ul class="learn">
+            <li><input type="checkbox" id="l-c1"><div class="lx"><label for="l-c1">NumPy accumulation</label><span class="what">Use <code>np.add.at</code> or <code>np.histogram2d</code> with weights to add points to a grid.</span><span class="why"><i>WHY</i>This is the core of the heat map.</span></div></li>
+            <li><input type="checkbox" id="l-c2"><div class="lx"><label for="l-c2">OpenCV basics</label><span class="what">Know <code>GaussianBlur</code>, <code>threshold</code>, morphology (open, close), <code>findContours</code>, <code>approxPolyDP</code>, <code>applyColorMap</code> and <code>addWeighted</code>.</span><span class="why"><i>WHY</i>These turn a heat grid into polygons and overlay images.</span><a class="src" href="https://docs.opencv.org/4.x/d3/d05/tutorial_py_table_of_contents_contours.html" target="_blank" rel="noopener">OpenCV: Contours</a></div></li>
+            <li><input type="checkbox" id="l-c3"><div class="lx"><label for="l-c3">Shapely</label><span class="what">Know <code>Polygon</code>, <code>is_valid</code>, <code>make_valid</code>, <code>union</code>, <code>difference</code>, <code>buffer</code>, <code>simplify</code> and intersection with the frame box.</span><span class="why"><i>WHY</i>The geometry engine uses these operations.</span><a class="src" href="https://shapely.readthedocs.io/en/stable/manual.html" target="_blank" rel="noopener">Shapely manual</a></div></li>
+            <li><input type="checkbox" id="l-c4"><div class="lx"><label for="l-c4">Polygon simplification</label><span class="what">Know the Douglas–Peucker algorithm. Search for the tolerance that gives 12 or fewer vertices.</span><span class="why"><i>WHY</i>Bahadur zones must have 12 or fewer vertices.</span></div></li>
+            <li><input type="checkbox" id="l-c5"><div class="lx"><label for="l-c5">Coordinate systems</label><span class="what">Convert between detect-stream pixels, normalized 0–1 values and display pixels.</span><span class="why"><i>WHY</i>Most zone defects are coordinate defects.</span></div></li>
+          </ul>
+        </div>
+
+        <div class="learn-group">
+          <div class="lg-head"><h3>D. Vision models (WS3)</h3><span class="when">Week 2</span></div>
+          <ul class="learn">
+            <li><input type="checkbox" id="l-d1"><div class="lx"><label for="l-d1">Local VLM serving</label><span class="what">Run an open-weight VLM with Ollama, llama.cpp or vLLM. Candidates: Qwen2.5-VL, Qwen3-VL, Gemma 3, Florence-2, Moondream.</span><span class="why"><i>WHY</i>The default backend must run locally.</span><a class="src" href="https://github.com/QwenLM/Qwen3-VL" target="_blank" rel="noopener">Qwen3-VL</a></div></li>
+            <li><input type="checkbox" id="l-d2"><div class="lx"><label for="l-d2">Segment Anything (SAM 2, SAM 3)</label><span class="what">Know point and box prompts, the automatic mask generator, and text prompts in SAM 3. Convert a mask to a polygon.</span><span class="why"><i>WHY</i>SAM gives the exact region outlines.</span><a class="src" href="https://github.com/facebookresearch/sam2" target="_blank" rel="noopener">SAM 2</a> · <a class="src" href="https://github.com/facebookresearch/sam3" target="_blank" rel="noopener">SAM 3</a></div></li>
+            <li><input type="checkbox" id="l-d3"><div class="lx"><label for="l-d3">Open-vocabulary grounding</label><span class="what">Know Grounding DINO, OWLv2 and Florence-2 phrase grounding.</span><span class="why"><i>WHY</i>They find the box for a phrase such as “driveway”. SAM then cuts the exact mask in that box.</span><a class="src" href="https://github.com/IDEA-Research/GroundingDINO" target="_blank" rel="noopener">Grounding DINO</a></div></li>
+            <li><input type="checkbox" id="l-d4"><div class="lx"><label for="l-d4">Set-of-Mark prompting</label><span class="what">Draw numbered marks on regions so that the model can refer to each region by its number.</span><span class="why"><i>WHY</i>The recommended approach in section 9 uses this method.</span><a class="src" href="https://arxiv.org/abs/2310.11441" target="_blank" rel="noopener">Set-of-Mark paper</a></div></li>
+            <li><input type="checkbox" id="l-d5"><div class="lx"><label for="l-d5">Evaluation</label><span class="what">Know IoU, precision and recall. Annotate frames with CVAT or Label Studio, or draw them in the Bahadur zone editor.</span><span class="why"><i>WHY</i>D4 needs 20 or more annotated frames.</span></div></li>
+          </ul>
+        </div>
+
+        <div class="learn-group">
+          <div class="lg-head"><h3>E. Orchestration (WS4)</h3><span class="when">Week 3</span></div>
+          <ul class="learn">
+            <li><input type="checkbox" id="l-e1"><div class="lx"><label for="l-e1">Structured outputs</label><span class="what">Force JSON that matches a schema. Validate it with Pydantic. If it fails, send the error back and try again.</span><span class="why"><i>WHY</i>The zone program must always parse.</span><a class="src" href="https://ollama.com/blog/structured-outputs" target="_blank" rel="noopener">Ollama: Structured outputs</a></div></li>
+            <li><input type="checkbox" id="l-e2"><div class="lx"><label for="l-e2">Prompt templates for intent</label><span class="what">Map words to goals: watch, ignore, object types, alert or detection, loitering.</span><span class="why"><i>WHY</i>The intent decides which zones you make.</span></div></li>
+            <li><input type="checkbox" id="l-e3"><div class="lx"><label for="l-e3">Small DSLs and property tests</label><span class="what">Design a short list of operations. Test the engine with random inputs (Hypothesis).</span><span class="why"><i>WHY</i>Property tests prove that every output polygon is valid.</span><a class="src" href="https://hypothesis.readthedocs.io/en/latest/" target="_blank" rel="noopener">Hypothesis docs</a></div></li>
+          </ul>
+        </div>
+
+        <div class="learn-group">
+          <div class="lg-head"><h3>F. UI and delivery</h3><span class="when">Weeks 4–5</span></div>
+          <ul class="learn">
+            <li><input type="checkbox" id="l-f1"><div class="lx"><label for="l-f1">React and TypeScript in the Bahadur web UI</label><span class="what">Read the current Masks / Zones editor first. Use its polygon canvas and its save path again.</span><span class="why"><i>WHY</i>D6 must fit the existing UI.</span><a class="src" href="https://react.dev/learn" target="_blank" rel="noopener">React docs</a></div></li>
+            <li><input type="checkbox" id="l-f2"><div class="lx"><label for="l-f2">Backend API routes (FastAPI)</label><span class="what">Add the routes that the UI calls: propose, refine and apply.</span><span class="why"><i>WHY</i>D6 needs API routes.</span><a class="src" href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener">FastAPI docs</a></div></li>
+            <li><input type="checkbox" id="l-f3"><div class="lx"><label for="l-f3">pytest and Docker integration tests</label><span class="what">Write unit tests and one integration run against a Bahadur container.</span><span class="why"><i>WHY</i>This is deliverable D7.</span><a class="src" href="https://docs.pytest.org/en/stable/" target="_blank" rel="noopener">pytest docs</a></div></li>
+            <li><input type="checkbox" id="l-f4"><div class="lx"><label for="l-f4">Open-source PR workflow</label><span class="what">Use a feature branch, small commits and a draft PR from week 1. Follow the code standards of the repository.</span><span class="why"><i>WHY</i>D9 must be ready to merge upstream.</span></div></li>
+            <li><input type="checkbox" id="l-f5"><div class="lx"><label for="l-f5">MQTT and Home Assistant basics</label><span class="what">Know how zone events reach automations.</span><span class="why"><i>WHY</i>Zone names appear in users' automations. Choose names that will not change.</span></div></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 9 APPROACH -->
+      <section id="approach">
+        <div class="sec-head"><span class="sec-num">09</span><h2>Recommended approach</h2></div>
+        <p class="thesis">Let the model <em>choose</em>.<br>Let geometry <em>draw</em>.</p>
+        <div class="prose">
+          <p>Vision-language models name things well. They place exact coordinates badly, and they give different coordinates on each run. A zone is exact geometry. Thus, do not ask the model for coordinates. First, measure the regions with code. Then ask the model to choose and combine the regions by number.</p>
+        </div>
+        <figure>
+          <div class="fig-frame fig-scroll"><svg viewBox="0 0 1008 336" role="img" aria-label="Option A: the model writes coordinates directly, with imprecise and unstable corners. Option B: the model picks numbered regions and writes a zone program; a geometry engine makes valid polygons."><defs><radialGradient id="hp-op"><stop offset="0" class="hp0"/><stop offset=".6" class="hp1"/><stop offset="1" class="hp2"/></radialGradient><radialGradient id="hc-op"><stop offset="0" class="hc0"/><stop offset=".6" class="hc1"/><stop offset="1" class="hc2"/></radialGradient><pattern id="hx-op" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" class="hx-bg"/><line x1="0" y1="0" x2="0" y2="10" class="hx-ln"/></pattern><marker id="mk-op" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs><text class="lt" x="20" y="26">A · The model writes coordinates</text><rect class="bx" x="20" y="40" width="168" height="64" rx="10"/><text class="bt" x="104.0" y="67" text-anchor="middle">Camera frame</text><text class="bs" x="104.0" y="87" text-anchor="middle">one JPEG</text><path class="ar" d="M188 72H218" marker-end="url(#mk-op)"/><rect class="bx" x="220" y="40" width="168" height="64" rx="10"/><text class="bt" x="304.0" y="67" text-anchor="middle">Vision LLM</text><text class="bs" x="304.0" y="87" text-anchor="middle">reads pixels</text><path class="ar" d="M388 72H418" marker-end="url(#mk-op)"/><rect class="bx" x="420" y="40" width="200" height="64" rx="10"/><text class="bt" x="520.0" y="67" text-anchor="middle">Raw coordinates</text><text class="bs mono" x="520.0" y="87" text-anchor="middle">0.41,0.58,0.66,…</text><path class="ar" d="M620 72H658" marker-end="url(#mk-op)"/><g class="wt"><rect x="664" y="37" width="142.1" height="22" rx="6"/><text x="673" y="48" dominant-baseline="central">imprecise corners</text></g><g class="wt"><rect x="664" y="63" width="149.4" height="22" rx="6"/><text x="673" y="74" dominant-baseline="central">may self-intersect</text></g><g class="wt"><rect x="664" y="89" width="156.7" height="22" rx="6"/><text x="673" y="100" dominant-baseline="central">changes on each run</text></g><text class="lt2" x="20" y="186">B · The model composes measured regions (recommended)</text><rect class="bx" x="20" y="200" width="168" height="64" rx="10"/><text class="bt" x="104.0" y="227" text-anchor="middle">Frame + regions</text><text class="bs" x="104.0" y="247" text-anchor="middle">numbered marks, heat</text><path class="ar" d="M188 232H218" marker-end="url(#mk-op)"/><rect class="bx" x="220" y="200" width="168" height="64" rx="10"/><text class="bt" x="304.0" y="227" text-anchor="middle">LLM planner</text><text class="bs" x="304.0" y="247" text-anchor="middle">reads ids, not pixels</text><path class="ar" d="M388 232H418" marker-end="url(#mk-op)"/><rect class="bx" x="420" y="200" width="168" height="64" rx="10"/><text class="bt" x="504.0" y="227" text-anchor="middle">Zone program</text><text class="bs" x="504.0" y="247" text-anchor="middle">JSON operations</text><path class="ar" d="M588 232H618" marker-end="url(#mk-op)"/><rect class="bx hi" x="620" y="200" width="168" height="64" rx="10"/><text class="bt" x="704.0" y="227" text-anchor="middle">Geometry engine</text><text class="bs" x="704.0" y="247" text-anchor="middle">Shapely + OpenCV</text><path class="ar" d="M788 232H818" marker-end="url(#mk-op)"/><rect class="bx" x="820" y="200" width="168" height="64" rx="10"/><text class="bt" x="904.0" y="227" text-anchor="middle">Valid zones</text><text class="bs" x="904.0" y="247" text-anchor="middle">preview, then save</text><text class="okt" x="704.0" y="288" text-anchor="middle">12 or fewer vertices</text><text class="okt" x="704.0" y="306" text-anchor="middle">inside frame, no self-cross</text><text class="okt" x="704.0" y="324" text-anchor="middle">same input, same output</text></svg></div>
+          <figcaption><b>Figure 9.</b> In option A, every corner comes from the model. In option B, the model picks only region numbers and operations. Deterministic code makes every corner. Option B adds one box, the geometry engine, and removes the main risk.</figcaption>
+        </figure>
+
+        <div class="principles">
+          <div class="pr">
+            <span class="eyebrow">Day 1–3</span>
+            <h3>Make the test set first</h3>
+            <p class="why">You need a number to compare models and to show progress at each weekly demo. D4 requires this set anyway.</p>
+            <p class="do"><b>DO</b>Collect 20 or more frames from 4 or more scene types: front door, driveway, backyard with pool, shop entrance, night IR. Draw the correct zones by hand. Write two prompts for each frame. Score each run with IoU, the validity rules and the time.</p>
+          </div>
+          <div class="pr">
+            <span class="eyebrow">Week 1</span>
+            <h3>Build a walking skeleton</h3>
+            <p class="why">A thin end-to-end path finds integration problems early. After that, each week makes one part better.</p>
+            <p class="do"><b>DO</b>Connect prompt → heat-map region → valid polygon → staged patch → preview image. Use no VLM yet. Then replace one simple part with a better part each week.</p>
+          </div>
+          <div class="pr">
+            <span class="eyebrow">Week 2</span>
+            <h3>Make a clean plate</h3>
+            <p class="why">The camera does not move, so the scene geometry is the same in all frames. Parked cars, people and shadows hide parts of the scene.</p>
+            <p class="do"><b>DO</b>Take the per-pixel median of about 30 daylight frames from different hours. Segment this clean plate one time. Use its polygons for night and IR frames too. Use night frames only to check that the camera did not move.</p>
+          </div>
+          <div class="pr">
+            <span class="eyebrow">Week 2</span>
+            <h3>Number the regions</h3>
+            <p class="why">A model refers to a number much more reliably than to a pixel position. This is the Set-of-Mark method.</p>
+            <p class="do"><b>DO</b>Draw each segmented region and heat region with a large number on the frame. Send the marked image and a compact table: id, label, confidence, area, heat share for each label, neighbors.</p>
+          </div>
+          <div class="pr">
+            <span class="eyebrow">Week 3</span>
+            <h3>Write a zone program, not coordinates</h3>
+            <p class="why">A program is repeatable and testable. A follow-up prompt can edit it with one more step.</p>
+            <p class="do"><b>DO</b>Let the LLM return JSON operations: <code>take</code>, <code>union</code>, <code>subtract</code>, <code>grow_along_heat</code>, <code>buffer</code>. Validate the JSON with a Pydantic schema. Run it in a geometry engine that always obeys the zone rules.</p>
+          </div>
+          <div class="pr">
+            <span class="eyebrow">Week 3</span>
+            <h3>Let heat shape, let semantics name</h3>
+            <p class="why">Segmentation knows what an area is. The heat map knows where objects really go. One alone is not sufficient.</p>
+            <p class="do"><b>DO</b>Start from the semantic region. Grow it into connected heat cells. Stop at the regions that the user wants to ignore. If segmentation confidence is low, use the heat region and tell the user.</p>
+          </div>
+          <div class="pr">
+            <span class="eyebrow">Week 4</span>
+            <h3>Cache the scene for speed</h3>
+            <p class="why">The time limit is one minute. Segmentation and heat maps are slow, but they do not depend on the prompt.</p>
+            <p class="do"><b>DO</b>Compute the clean plate, the regions and the heat maps in the background, for example each night or when the user adds a camera. A prompt then needs only one LLM call and fast geometry.</p>
+          </div>
+          <div class="pr">
+            <span class="eyebrow">All weeks</span>
+            <h3>Use fake cameras for tests</h3>
+            <p class="why">Real cameras give different results each day. Tests must give the same result each time.</p>
+            <p class="do"><b>DO</b>Loop recorded video files as camera inputs in a Bahadur Docker container. Let Bahadur build object history from them. Use this container for the D7 integration tests.</p>
+          </div>
+        </div>
+
+        <div class="prose">
+          <h4>The zone program</h4>
+          <p>For the prompt at the top of this manual, the LLM returns this program. It uses the region numbers from Figure 4D.</p>
+        </div>
+<pre><code>{
+  "zones": [
+    {
+      "name": "porch_approach",
+      "steps": [
+        {"op": "take", "regions": [5, 4]},
+        {"op": "grow_along_heat", "label": "person", "max_px": 40},
+        {"op": "subtract", "regions": [1, 2]}
+      ],
+      "objects": ["person"], "review": "alert", "inertia": 3, "loitering_time": 0,
+      "rationale": "The porch, plus the walkway that people use to reach it."
+    },
+    {
+      "name": "driveway",
+      "steps": [
+        {"op": "take", "regions": [3]},
+        {"op": "grow_along_heat", "label": "car", "max_px": 30}
+      ],
+      "objects": ["person", "car"], "review": "detection",
+      "rationale": "The area where cars park and people walk to the house."
+    }
+  ]
+}</code></pre>
+        <div class="prose">
+          <p>A follow-up prompt adds one step. For “make the driveway zone stop at the sidewalk”, the LLM returns:</p>
+        </div>
+<pre><code>{"zone": "driveway", "append": {"op": "subtract", "regions": [2]}}</code></pre>
+        <div class="prose">
+          <p>The geometry engine runs the steps. It then makes sure that each zone obeys the rules:</p>
+        </div>
+<pre><code><span class="k">def</span> run_program(program, regions, heat, frame_box):
+    <span class="k">for</span> zone <span class="k">in</span> program.zones:
+        shape = Polygon()
+        <span class="k">for</span> step <span class="k">in</span> zone.steps:
+            shape = OPS[step.op](shape, step, regions, heat)
+        shape = largest_part(make_valid(shape).intersection(frame_box))
+        shape = simplify_to(shape, max_vertices=12)
+        <span class="k">assert</span> shape.is_valid <span class="k">and</span> vertex_count(shape) &lt;= 12
+        <span class="k">yield</span> to_bahadur_zone(zone, shape)   <span class="c"># normalized 0–1 coordinates</span>
+
+<span class="k">def</span> simplify_to(shape, max_vertices):
+    lo, hi = 0.0, 50.0                       <span class="c"># tolerance in pixels</span>
+    <span class="k">for</span> _ <span class="k">in</span> range(20):                     <span class="c"># binary search</span>
+        mid = (lo + hi) / 2
+        <span class="k">if</span> vertex_count(shape.simplify(mid)) &lt;= max_vertices:
+            hi = mid
+        <span class="k">else</span>:
+            lo = mid
+    <span class="k">return</span> shape.simplify(hi)</code></pre>
+
+        <div class="prose">
+          <h4>Model choice by hardware</h4>
+          <p>Many Bahadur users run small boxes without a large GPU. Plan for three levels:</p>
+        </div>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Hardware</th><th>Region names</th><th>Outlines</th><th>Planner LLM</th><th>Note</th></tr></thead>
+            <tbody>
+              <tr><td>CPU only</td><td>Florence-2 (base)</td><td>SAM 2.1 tiny</td><td>Small local LLM, or heat-only mode</td><td>Slow is acceptable because the scene cache runs in the background. Measure it.</td></tr>
+              <tr><td>GPU, 8–16 GB</td><td>Qwen2.5-VL 7B or Qwen3-VL 8B</td><td>SAM 2.1 or SAM 3</td><td>The same VLM</td><td>Recommended default.</td></tr>
+              <tr><td>Cloud (opt-in)</td><td>Cloud vision API</td><td>Local SAM</td><td>Cloud LLM</td><td>Never required. The user must enable it.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <span class="lbl">NOTE</span>
+          <div><p>These models are candidates. Test them on your evaluation set in week 2. Record the result in D1.</p></div>
+        </div>
+        <div class="callout">
+          <span class="lbl">NOTE</span>
+          <div>
+            <p><b>Stretch goal: drift guard.</b> Save the clean plate together with the zones. Each day, compare a new clean plate with the saved one: match ORB features and calculate a homography. If the camera moved, move the zones with the same transform and ask the user to approve.</p>
+            <p>This fixes problem C in section 2 at low cost. It is not in the scope. Propose it as follow-on work in D1, or build it in week 5 if time remains.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 WEEKS -->
+      <section id="weeks">
+        <div class="sec-head"><span class="sec-num">10</span><h2>Week plan</h2></div>
+        <div class="prose"><p>This plan follows the handover milestones and adds the recommendations from section 9. Week 1 is planned day by day because it sets the base for all later work.</p></div>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>When</th><th>Do</th><th>Show at the end</th></tr></thead>
+            <tbody>
+              <tr><td class="n">W1 · Day 1</td><td>Run Bahadur in Docker with 3 test cameras that loop video. Read the zone, event and config code.</td><td>Running container</td></tr>
+              <tr><td class="n">W1 · Day 2</td><td>Write <code>list_cameras</code>, <code>get_latest_frame</code> and <code>get_config</code>. Serve them through MCP. Add tests.</td><td>Tools answer an LLM client</td></tr>
+              <tr><td class="n">W1 · Day 3</td><td>Write <code>get_frames</code> and <code>get_object_history</code>. Build the heat map module and its CLI.</td><td>Rendered heat map</td></tr>
+              <tr><td class="n">W1 · Day 4</td><td>Build the walking skeleton. Start the evaluation set.</td><td>Prompt to staged patch, heat only</td></tr>
+              <tr><td class="n">W1 · Day 5</td><td>Write D1. Open the draft PR. Give the demo and the weekly report.</td><td>D1, D2, D3, draft PR</td></tr>
+              <tr><td class="n">Week 2</td><td>Build the clean plate, segmentation and VLM labels. Render numbered regions. Compare 2 or 3 model pairs on the evaluation set. Record the choice in D1.</td><td>Labeled polygons and a score table</td></tr>
+              <tr><td class="n">Week 3</td><td>Build the intent parser, the zone program schema and the geometry engine. Write the prompt templates. Add unit and property tests.</td><td>One sentence in, valid zones out, from the CLI</td></tr>
+              <tr><td class="n">Week 4</td><td>Build the UI: prompt box, overlay preview, accept, edit, reject, apply. Add follow-up prompts and the scene cache.</td><td>Full flow in the Bahadur UI</td></tr>
+              <tr><td class="n">Week 5</td><td>Run the integration tests and real cameras. Repair defects. Write D8. Finish the PR. Record the handover.</td><td>D7, D8, D9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 11 RISKS -->
+      <section id="risks">
+        <div class="sec-head"><span class="sec-num">11</span><h2>Risks</h2></div>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Risk</th><th>Effect</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>The VLM gives imprecise coordinates</td><td>Zones in the wrong place</td><td>Do not use model coordinates. Use measured regions and the geometry engine.</td></tr>
+              <tr><td>Night or infrared frames</td><td>Labels with low confidence</td><td>Segment a daylight clean plate. Report low confidence.</td></tr>
+              <tr><td>No GPU on the user's machine</td><td>Slow VLM, or no VLM</td><td>Use heat-only mode, background work and small models.</td></tr>
+              <tr><td>Large tool results</td><td>The LLM context overflows</td><td>Downscale frames to 1024 px or less. Send a heat summary, not raw rows.</td></tr>
+              <tr><td>Tool calls load Bahadur</td><td>Missed detections</td><td>Use the HTTP API only. Limit the request rate. Do no work in the detection process.</td></tr>
+              <tr><td>Parked cars</td><td>False hotspots</td><td>Set a maximum dwell weight. Mark stationary objects as transient.</td></tr>
+              <tr><td>A new camera with little history</td><td>Weak heat map</td><td>Use the semantic regions. Tell the user that the heat map has little data.</td></tr>
+              <tr><td>Five weeks is too short</td><td>Late handover</td><td>In week 1, propose a cut in this order: maps for each time of day, cloud adapters, follow-up prompts.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 12 QUESTIONS -->
+      <section id="questions">
+        <div class="sec-head"><span class="sec-num">12</span><h2>Questions for week 1</h2></div>
+        <div class="prose">
+          <p>The handover leaves two items open: the owner contact and the test cameras. Ask these questions in the first stand-up:</p>
+          <ol class="steps">
+            <li><span>Who is the owner contact for questions?</span></li>
+            <li><span>Which test cameras can I use? Can I get recorded clips from them?</span></li>
+            <li><span>What hardware do typical users have? Do many users have a GPU?</span></li>
+            <li><span>Which Bahadur version is the base? How different is it from upstream Frigate?</span></li>
+            <li><span>Which detector model runs? Labels such as <code>package</code> need a model that can detect them.</span></li>
+            <li><span>Where does the feature go in the UI: the Masks / Zones page or a new page?</span></li>
+            <li><span>Which auth path must the tools use?</span></li>
+            <li><span>Can the MCP server run inside Bahadur, or must it be a separate add-on?</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 13 GLOSSARY -->
+      <section id="glossary">
+        <div class="sec-head"><span class="sec-num">13</span><h2>Glossary</h2></div>
+        <dl class="gloss">
+          <dt>NVR</dt><dd>Network video recorder. Software that records and analyzes camera video.</dd>
+          <dt>Zone</dt><dd>A named polygon on the camera image. Bahadur uses it to filter alerts and detections.</dd>
+          <dt>Mask</dt><dd>An area that Bahadur ignores for motion or objects. Masks are out of scope.</dd>
+          <dt>Detect stream</dt><dd>The low-resolution stream that Bahadur analyzes. Zone coordinates refer to it.</dd>
+          <dt>Bottom-center point</dt><dd>The middle of the bottom edge of an object box. Bahadur tests this point against zones.</dd>
+          <dt>Inertia</dt><dd>The number of frames that an object must stay in a zone before it counts.</dd>
+          <dt>Loitering time</dt><dd>The number of seconds that an object must stay in a zone before it counts.</dd>
+          <dt>Heat map</dt><dd>A grid that counts where objects were, over a period of time.</dd>
+          <dt>Dwell time</dt><dd>How long an object stays in one place.</dd>
+          <dt>VLM</dt><dd>Vision-language model. A model that reads an image and writes text.</dd>
+          <dt>SAM</dt><dd>Segment Anything Model. It cuts precise region masks from an image.</dd>
+          <dt>Grounding</dt><dd>Finding the image area that matches a text phrase.</dd>
+          <dt>Set-of-Mark</dt><dd>A prompt method. You draw numbered marks on regions, and the model refers to the regions by number.</dd>
+          <dt>MCP</dt><dd>Model Context Protocol. A standard method to give tools to an LLM.</dd>
+          <dt>Zone program</dt><dd>A term in this manual. A short list of geometry operations that the LLM writes.</dd>
+          <dt>Geometry engine</dt><dd>The code that runs a zone program and makes valid polygons.</dd>
+          <dt>Clean plate</dt><dd>A frame with no moving objects. You make it from the median of many frames.</dd>
+          <dt>IoU</dt><dd>Intersection over union. A score from 0 to 1 that shows how well two areas match.</dd>
+          <dt>Douglas–Peucker</dt><dd>An algorithm that removes polygon vertices but keeps the shape.</dd>
+          <dt>Homography</dt><dd>A 3 × 3 transform that maps one view of a flat scene to another view.</dd>
+        </dl>
+      </section>
+
+      <footer>
+        <p>Source: “Task Handover: Automatic Zone Detection for Bahadur”, 19 October 2026, @Chirag.</p>
+        <p>Figures 3 and 8 are redrawn from the handover. All other figures are illustrations for this manual. Example values are not real data.</p>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  var KEY = "zd-manual-learn-v1";
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
+  var boxes = Array.prototype.slice.call(document.querySelectorAll(".learn input[type=checkbox]"));
+  var out = document.getElementById("learn-count");
+  var bar = document.getElementById("learn-bar");
+  function update() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    out.textContent = n + " / " + boxes.length;
+    bar.style.width = (boxes.length ? (100 * n / boxes.length) : 0) + "%";
+  }
+  boxes.forEach(function (b) {
+    if (saved[b.id]) b.checked = true;
+    b.addEventListener("change", function () {
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      update();
+    });
+  });
+  update();
+
+  var links = Array.prototype.slice.call(document.querySelectorAll(".toc a"));
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && byId[en.target.id]) {
+          links.forEach(function (a) { a.removeAttribute("aria-current"); });
+          byId[en.target.id].setAttribute("aria-current", "true");
+        }
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    Object.keys(byId).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
